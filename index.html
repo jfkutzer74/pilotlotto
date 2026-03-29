@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PilotLotto — Coming Soon</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: #09090f;
+    color: #fff;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+  .logo {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    color: #f5c842;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .sub {
+    font-size: clamp(15px, 2.5vw, 20px);
+    color: #888;
+    max-width: 480px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 400px;
+  }
+  input {
+    width: 100%;
+    padding: 14px 18px;
+    background: #16161f;
+    border: 1px solid #2a2a40;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+  }
+  input::placeholder { color: #555; }
+  button {
+    width: 100%;
+    padding: 14px;
+    background: #f5c842;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: .04em;
+  }
+  .tagline {
+    margin-top: 48px;
+    font-size: 13px;
+    color: #444;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="logo">✈ PilotLotto</div>
+  <h1>Take Control of<br>Your Numbers</h1>
+  <p class="sub">Stop filling in lottery bubbles by hand.
+  Print your picks perfectly — every ticket, every time.</p>
+
+  <form class="form"
+    action="https://app.kit.com/forms/YOUR_FORM_ID/subscriptions"
+    method="post">
+    <input
+      type="email"
+      name="email_address"
+      placeholder="Enter your email address"
+      required>
+    <button type="submit">Notify Me When We Launch →</button>
+  </form>
+
+  <p class="tagline">Printing · Wheeling · Analysis · Strategy</p>
+</body>
+</html>
+```
+
+5. Scroll down and tap **Commit new file**
+
+---
+
+## Step 4 — Connect GitHub Repo to Vercel
+
+1. Back in **Vercel** tap **Add New → Project**
+2. Your **pilotlotto** repo should now appear — tap **Import**
+3. Leave all settings at their defaults
+4. Tap **Deploy**
+5. Vercel builds and deploys in about 30 seconds
+6. You'll see a confirmation screen with a vercel.app preview URL — tap it to verify your coming soon page is live
+
+---
+
+## Step 5 — Connect Your PilotLotto.com Domain
+
+1. From your Vercel project dashboard tap **Settings**
+2. Tap **Domains**
+3. Type **pilotlotto.com** and tap **Add**
+4. Vercel will show you a DNS record to add — it will look like:
+```
+Type: A
+Name: @
+Value: 76.76.21.21
