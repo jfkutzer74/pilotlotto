@@ -209,8 +209,9 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
   <div class="sb-hdr">Games Library</div>
   <div class="sb-list" id="gameList"></div>
   <div class="sb-foot">
-    <div id="upgradeHint" style="display:none;margin-bottom:7px;padding:7px 9px;background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.2);border-radius:5px;font-size:13px;line-height:1.5;text-align:center">
-      <a href="https://pilotlotto.com" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:700">Want more games? See plans →</a>
+    <div id="upgradeHint" style="display:none;margin-bottom:7px;padding:7px 9px;background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.2);border-radius:5px;font-size:13px;line-height:1.8;text-align:center">
+      <div style="color:var(--text)">Want more games?</div>
+      <a href="https://pilotlotto.com" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:700">See plans →</a>
     </div>
     <button class="btn btn-ghost btn-full" onclick="showAddModal()">＋ Add Game</button>
   </div>
@@ -1666,7 +1667,7 @@ function renderGameList() {
     <div class="game-item ${g.id === S.activeId ? 'active' : ''}" onclick="setActive('${g.id}')">
       <div class="gi-name">${g.name}</div>
       <div class="gi-sub">${g.state||''} · Pick ${g.numbers.count} of ${g.numbers.max} · ${g.panels} panels</div>
-      <div class="gi-cal ${g.calibrated ? 'ok' : 'bad'}" style="cursor:${!g.calibrated?'pointer':'default'}" onclick="${!g.calibrated?'event.stopPropagation();goTab(\'calibrate\')':''}" title="${!g.calibrated?'Click to go to Calibrate tab':''}">${g.calibrated ? '✓ Calibrated' : '⚠ Click to Calibrate'}</div>
+      <div class="gi-cal ${g.calibrated ? 'ok' : 'bad'}">${g.calibrated ? '✓ Calibrated' : '○ Not Calibrated'}</div>
     </div>`).join('');
   // Show upgrade hint based on tier
   const hint = document.getElementById('upgradeHint');
