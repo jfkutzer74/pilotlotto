@@ -36,11 +36,11 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 .hdr-logo { display:flex; align-items:center; gap:8px; }
 .hdr-logo-icon { font-size:20px; }
 .hdr-title { font-size:22px; font-weight:800; letter-spacing:.1em; color:var(--gold); text-transform:uppercase; }
-.hdr-version { font-size:13px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
+.hdr-version { font-size:13px; color:var(--text); letter-spacing:.1em; text-transform:uppercase; }
 .hdr-tier { margin-left:8px; font-size:13px; padding:2px 7px; border-radius:3px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
 .hdr-tier.free   { background:rgba(91,164,245,.15); color:var(--blue); }
 .hdr-tier.player { background:rgba(245,200,66,.15); color:var(--gold); }
-.hdr-game { margin-left:auto; font-size:15px; color:var(--muted); }
+.hdr-game { margin-left:auto; font-size:15px; color:var(--text); }
 .hdr-game b { color:var(--green); }
 
 /* ── LAYOUT ── */
@@ -48,14 +48,14 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 
 /* ── SIDEBAR ── */
 .sidebar { width:190px; flex-shrink:0; background:var(--surf); border-right:1px solid var(--border); display:flex; flex-direction:column; overflow:hidden; }
-.sb-hdr { padding:10px 12px; font-size:14px; text-transform:uppercase; letter-spacing:.14em; color:var(--muted); border-bottom:1px solid var(--border); flex-shrink:0; }
+.sb-hdr { padding:10px 12px; font-size:14px; text-transform:uppercase; letter-spacing:.14em; color:var(--gold); border-bottom:1px solid var(--border); flex-shrink:0; }
 .sb-list { flex:1; overflow-y:auto; padding:5px; }
 .sb-list::-webkit-scrollbar { width:3px; } .sb-list::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
 .game-item { padding:8px 10px; border-radius:var(--r); cursor:pointer; border:1px solid transparent; transition:all .15s; margin-bottom:3px; }
 .game-item:hover { background:var(--panel); }
 .game-item.active { background:var(--panel); border-color:rgba(245,200,66,.3); }
 .game-item .gi-name { font-size:16px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.game-item .gi-sub { font-size:13px; color:var(--muted); margin-top:2px; }
+.game-item .gi-sub { font-size:13px; color:var(--text); margin-top:2px; }
 .game-item .gi-cal { display:inline-block; font-size:12px; margin-top:4px; padding:1px 5px; border-radius:3px; letter-spacing:.05em; }
 .gi-cal.ok  { background:rgba(61,214,140,.12); color:var(--green); }
 .gi-cal.bad { background:rgba(245,200,66,.1);  color:var(--gold); }
@@ -84,7 +84,7 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 .card-sm { background:var(--bg); border:1px solid var(--border); border-radius:var(--r); padding:10px; margin-bottom:10px; }
 .card-title { font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:.13em; color:var(--gold); margin-bottom:11px; display:flex; align-items:center; gap:7px; }
 .badge { font-size:12px; padding:1px 5px; border-radius:3px; font-weight:700; letter-spacing:.05em; }
-.badge-blue { background:rgba(91,164,245,.2); color:var(--blue); }
+.badge-blue { background:rgba(91,164,245,.2); color:#c8dfff; }
 .badge-green { background:rgba(61,214,140,.2); color:var(--green); }
 
 /* ── FORMS ── */
@@ -112,13 +112,13 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 
 /* ── ALERTS ── */
 .alert { padding:10px 14px; border-radius:var(--r); font-size:15px; line-height:1.6; border:1px solid; margin-bottom:10px; }
-.alert-info    { background:rgba(91,164,245,.08); border-color:rgba(91,164,245,.25); color:var(--blue); }
+.alert-info    { background:rgba(91,164,245,.08); border-color:rgba(91,164,245,.25); color:#c8dfff; }
 .alert-success { background:rgba(61,214,140,.08); border-color:rgba(61,214,140,.25); color:var(--green); }
 .alert-warn    { background:rgba(245,200,66,.08); border-color:rgba(245,200,66,.25); color:var(--gold); }
 .alert-error   { background:rgba(242,112,102,.08); border-color:rgba(242,112,102,.25); color:var(--red); }
 
 /* ── UPLOAD ZONES ── */
-.upload-zone { border:1px dashed var(--border2); border-radius:var(--r); padding:18px 14px; text-align:center; cursor:pointer; font-size:15px; color:var(--muted); transition:all .2s; user-select:none; }
+.upload-zone { border:1px dashed var(--border2); border-radius:var(--r); padding:18px 14px; text-align:center; cursor:pointer; font-size:15px; color:var(--text); transition:all .2s; user-select:none; }
 .upload-zone:hover { border-color:var(--gold); color:var(--gold); }
 .upload-zone.loaded { border-color:var(--green); color:var(--green); border-style:solid; }
 .upload-zone .uz-icon { font-size:22px; margin-bottom:4px; }
@@ -131,14 +131,14 @@ input[type=file] { display:none; }
 
 /* ── NUM TABLE ── */
 .num-tbl { width:100%; border-collapse:collapse; font-size:15px; font-family:var(--mono); }
-.num-tbl th { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:4px 6px; border-bottom:1px solid var(--border); text-align:center; }
+.num-tbl th { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--gold); padding:4px 6px; border-bottom:1px solid var(--border); text-align:center; }
 .num-tbl td { padding:4px 7px; border-bottom:1px solid var(--border); text-align:center; }
 .num-tbl .td-panel { color:var(--gold); font-weight:700; }
 .num-tbl .td-picked { color:var(--green); font-weight:700; }
 
 /* ── GRID PREVIEW ── */
 .grid-tbl { border-collapse:collapse; font-size:14px; font-family:var(--mono); }
-.grid-tbl td { width:22px; height:18px; text-align:center; border:1px solid var(--border); color:var(--muted); }
+.grid-tbl td { width:22px; height:18px; text-align:center; border:1px solid var(--border); color:var(--text); }
 .grid-tbl td.filled { background:rgba(245,200,66,.07); color:var(--text); }
 
 /* ── RULER WIZARD ── */
@@ -160,9 +160,9 @@ input[type=file] { display:none; }
 .coming-soon-pane { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; text-align:center; padding:40px; }
 .coming-soon-icon { font-size:48px; margin-bottom:16px; }
 .coming-soon-title { font-size:28px; font-weight:800; color:var(--gold); margin-bottom:8px; }
-.coming-soon-sub { font-size:18px; color:var(--muted); max-width:380px; line-height:1.7; margin-bottom:24px; }
+.coming-soon-sub { font-size:18px; color:var(--text); max-width:380px; line-height:1.7; margin-bottom:24px; }
 .coming-soon-tiers { background:var(--panel); border:1px solid var(--border); border-radius:var(--r); padding:14px 20px; margin-bottom:20px; text-align:left; width:100%; max-width:380px; }
-.coming-soon-tiers h4 { font-size:14px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); margin-bottom:10px; }
+.coming-soon-tiers h4 { font-size:14px; text-transform:uppercase; letter-spacing:.12em; color:var(--gold); margin-bottom:10px; }
 .tier-row { display:flex; align-items:center; gap:10px; font-size:16px; padding:4px 0; }
 .tier-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .tier-dot.gold   { background:var(--gold); }
@@ -253,7 +253,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
               <div class="field"><label>Grid Columns</label><input id="sGCols" type="number" min="1" max="20"></div>
               <div class="field"><label>Grid Rows</label><input id="sGRows" type="number" min="1" max="20"></div>
             </div>
-            <div class="alert alert-info" style="margin-top:8px;margin-bottom:0;font-size:10px">
+            <div class="alert alert-info" style="margin-top:8px;margin-bottom:0;font-size:15px">
               Grid cols × rows must equal or exceed the max number. Fantasy 5: 6×6=36. Panels: Fantasy 5 = 10 (A–J), Powerball = 5 (A–E).
             </div>
             <div class="btn-row">
@@ -266,11 +266,15 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
           <div class="card">
             <div class="card-title">📏 Ticket Dimensions</div>
             <div class="alert alert-warn" style="margin-bottom:10px">
-              Measure your blank ticket with a ruler to the nearest <strong>1/16 inch</strong>. The photo method gives higher accuracy.
+              Hold the ticket with the <strong>game name upright</strong>. Measure to the nearest <strong>1/16 inch</strong>.
+              The image method on the right gives higher accuracy.
             </div>
             <div class="grid-2">
-              <div class="field"><label>Width (inches)</label><input id="sTW" type="number" min="0.5" max="6" step="0.0625"></div>
-              <div class="field"><label>Height (inches)</label><input id="sTH" type="number" min="1" max="14" step="0.0625"></div>
+              <div class="field"><label>Long Side (inches)</label><input id="sTH" type="number" min="1" max="14" step="0.0625"></div>
+              <div class="field"><label>Short Side (inches)</label><input id="sTW" type="number" min="0.5" max="6" step="0.0625"></div>
+            </div>
+            <div class="alert alert-info" style="margin-top:8px;margin-bottom:8px;font-size:13px">
+              ✈ <strong>Feed direction:</strong> Game name end enters the printer first — always. The app uses this as the top of every print job.
             </div>
             <div class="btn-row">
               <button class="btn btn-gold" onclick="saveSetup()">Save Dimensions</button>
@@ -278,24 +282,87 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
           </div>
         </div>
 
-        <!-- Ruler Photo Method -->
+        <!-- Ticket Image + Measurement -->
         <div>
           <div class="card">
-            <div class="card-title">📷 Photo + Ruler Method <span class="badge badge-blue">Optional but accurate</span></div>
-            <div class="alert alert-info" style="margin-bottom:10px">
-              <strong>How to take the photo:</strong><br>
-              • Place a ruler flat next to your ticket on a well-lit surface<br>
-              • Hold the camera directly overhead — no angle<br>
-              • Fill the frame with ticket + ruler<br>
-              • Both ticket edges and ruler marks must be sharp
+            <div class="card-title">📷 Ticket Image <span class="badge badge-blue">Required</span></div>
+            <div class="alert alert-warn" style="margin-bottom:10px">
+              A ticket image is <strong>required</strong> for calibration and to show you how to feed the ticket.
+              Choose your image source below.
             </div>
 
-            <div class="wizard-step" id="rulerHint">📷 Upload a photo of your ticket with a ruler alongside it.</div>
-
-            <div class="upload-zone" onclick="document.getElementById('rulerFile').click()">
-              <div class="uz-icon">📷</div><div>Upload ruler photo</div>
-              <div class="uz-sub">JPG or PNG from phone or scanner</div>
+            <!-- Image source selector -->
+            <div class="field" style="margin-bottom:12px">
+              <label>Image Source</label>
+              <div style="display:flex;gap:16px;margin-top:6px">
+                <label style="display:flex;align-items:center;gap:7px;font-size:15px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer">
+                  <input type="radio" name="imgSrc" value="phone" id="srcPhone" checked onchange="updateImageSourceUI()" style="width:auto;accent-color:var(--gold)">
+                  📱 Phone photo
+                </label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:15px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer">
+                  <input type="radio" name="imgSrc" value="scanner" id="srcScanner" onchange="updateImageSourceUI()" style="width:auto;accent-color:var(--gold)">
+                  🖨 Scanner
+                </label>
+              </div>
             </div>
+
+            <!-- Phone photo instructions -->
+            <div id="phoneInstructions">
+              <div class="alert alert-info" style="margin-bottom:10px;font-size:13px">
+                <strong>Phone photo tips:</strong><br>
+                • Lay the ticket flat on a well-lit surface<br>
+                • Hold phone directly overhead — no angle<br>
+                • Place a ruler alongside the ticket<br>
+                • <strong>Two photos needed:</strong> one with ruler along the long side, one along the short side<br>
+                • On your phone, tap Upload → your camera roll or Take Photo
+              </div>
+              <div class="grid-2" style="margin-bottom:10px">
+                <div>
+                  <div style="font-size:13px;color:var(--gold);margin-bottom:5px;font-weight:700">LONG SIDE PHOTO</div>
+                  <div class="upload-zone" onclick="document.getElementById('rulerFileLong').click()">
+                    <div class="uz-icon">📷</div><div>Ruler along long side</div>
+                    <div class="uz-sub">Game name at top</div>
+                  </div>
+                  <input type="file" id="rulerFileLong" accept="image/*">
+                </div>
+                <div>
+                  <div style="font-size:13px;color:var(--gold);margin-bottom:5px;font-weight:700">SHORT SIDE PHOTO</div>
+                  <div class="upload-zone" onclick="document.getElementById('rulerFileShort').click()">
+                    <div class="uz-icon">📷</div><div>Ruler along short side</div>
+                    <div class="uz-sub">Ruler at bottom or right</div>
+                  </div>
+                  <input type="file" id="rulerFileShort" accept="image/*">
+                </div>
+              </div>
+            </div>
+
+            <!-- Scanner instructions -->
+            <div id="scannerInstructions" style="display:none">
+              <div class="alert alert-info" style="margin-bottom:10px;font-size:13px">
+                <strong>Scanner method — most accurate:</strong><br>
+                • Place ticket face-down on scanner, game name at top<br>
+                • Scan at <strong>300 DPI</strong> (standard setting)<br>
+                • Save as JPG or PNG<br>
+                • App calculates exact dimensions from pixel count ÷ DPI — no ruler needed
+              </div>
+              <div class="field" style="margin-bottom:10px">
+                <label>Scanner DPI</label>
+                <select id="scannerDPI">
+                  <option value="300">300 DPI (standard)</option>
+                  <option value="600">600 DPI (high res)</option>
+                  <option value="150">150 DPI (draft)</option>
+                  <option value="custom">Custom DPI</option>
+                </select>
+              </div>
+              <div id="customDPIRow" style="display:none">
+                <div class="field"><label>Custom DPI Value</label><input type="number" id="customDPI" value="300" min="72" max="1200"></div>
+              </div>
+              <div class="upload-zone" id="scannerUploadZone" onclick="document.getElementById('rulerFile').click()">
+                <div class="uz-icon">🖨</div><div>Upload scanned ticket image</div>
+                <div class="uz-sub">JPG or PNG · 300 DPI recommended</div>
+              </div>
+            </div>
+
             <input type="file" id="rulerFile" accept="image/*">
 
             <div id="rulerCanvasWrap" class="ruler-canvas-wrap" style="margin-top:10px;display:none">
@@ -312,7 +379,28 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
               </div>
             </div>
 
+            <div id="rulerCanvasWrap" class="ruler-canvas-wrap" style="margin-top:10px;display:none">
+              <canvas id="rulerCanvas"></canvas>
+            </div>
+
+            <div id="rulerDistRow" style="display:none;margin-top:8px">
+              <div class="field">
+                <label>Known distance between your two ruler points (inches)</label>
+                <input id="rulerDist" type="number" min="0.1" max="24" step="0.0625" value="6">
+              </div>
+              <div class="btn-row">
+                <button class="btn btn-gold" onclick="confirmRulerDist()">✓ Confirm → Now click ticket corners</button>
+              </div>
+            </div>
+
             <div id="rulerResult" style="display:none;margin-top:10px"></div>
+
+            <!-- Feed direction guide -->
+            <div class="alert alert-info" style="margin-top:12px;font-size:13px">
+              ✈ <strong>How to feed your ticket:</strong> Hold the ticket with the game name upright (portrait).
+              Feed the <strong>game name end in first</strong>, face up, centered in the slot.
+            </div>
+
           </div>
         </div>
       </div>
@@ -330,19 +418,19 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             Feed results into the Calibrate tab for automatic correction.
           </div>
           <div class="card-sm">
-            <div class="card-title" style="font-size:9px;margin-bottom:8px">Required Printer Settings</div>
+            <div class="card-title" style="font-size:14px;margin-bottom:8px">Required Printer Settings</div>
             <table style="font-size:11px;width:100%;border-collapse:collapse">
-              <tr><td style="padding:3px 8px;color:var(--muted)">Paper size</td><td style="padding:3px 8px"><strong>Letter (8.5" × 11")</strong></td></tr>
-              <tr><td style="padding:3px 8px;color:var(--muted)">Orientation</td><td style="padding:3px 8px"><strong>Portrait</strong></td></tr>
-              <tr><td style="padding:3px 8px;color:var(--muted)">Scale</td><td style="padding:3px 8px"><strong>100% Actual Size — NO fit-to-page</strong></td></tr>
-              <tr><td style="padding:3px 8px;color:var(--muted)">Margins</td><td style="padding:3px 8px"><strong>None / Custom = 0"</strong></td></tr>
-              <tr><td style="padding:3px 8px;color:var(--muted)">Feed</td><td style="padding:3px 8px"><strong>Center slot, ticket face-up</strong></td></tr>
+              <tr><td style="padding:5px 10px;color:var(--gold)">Paper size</td><td style="padding:5px 10px;font-size:15px"><strong>Letter (8.5" × 11")</strong></td></tr>
+              <tr><td style="padding:5px 10px;color:var(--gold)">Orientation</td><td style="padding:5px 10px;font-size:15px"><strong>Portrait</strong></td></tr>
+              <tr><td style="padding:5px 10px;color:var(--gold)">Scale</td><td style="padding:5px 10px;font-size:15px"><strong>100% Actual Size — NO fit-to-page</strong></td></tr>
+              <tr><td style="padding:5px 10px;color:var(--gold)">Margins</td><td style="padding:5px 10px;font-size:15px"><strong>None / Custom = 0"</strong></td></tr>
+              <tr><td style="padding:5px 10px;color:var(--gold)">Feed</td><td style="padding:5px 10px;font-size:15px"><strong>Center slot, ticket face-up</strong></td></tr>
             </table>
           </div>
           <div class="alert alert-warn">
             <strong>First run tip:</strong> Print on plain paper first. Hold it over a blank ticket against a bright light to check alignment before committing a real ticket.
           </div>
-          <div id="testInfo" style="font-size:11px;color:var(--muted);margin-top:10px;margin-bottom:12px"></div>
+          <div id="testInfo" style="font-size:14px;color:var(--text);margin-top:10px;margin-bottom:12px"></div>
           <div class="btn-row">
             <button class="btn btn-gold" onclick="doPrintTest()">⎙ Print Test Pattern</button>
           </div>
@@ -350,7 +438,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
 
         <div class="card">
           <div class="card-title">📊 Number Grid Layout</div>
-          <div id="gridPreview" style="font-size:11px;color:var(--muted)">Load a game to see grid.</div>
+          <div id="gridPreview" style="font-size:14px;color:var(--text)">Load a game to see grid.</div>
         </div>
 
       </div>
@@ -368,7 +456,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             <div class="canvas-wrap" id="calWrap">
               <canvas id="calCanvas"></canvas>
             </div>
-            <div style="font-size:9px;color:var(--muted);margin-top:5px">
+            <div style="font-size:14px;color:var(--text);margin-top:5px">
               🟡 Yellow = every number position &nbsp;|&nbsp; 🟢 Green = selected picks (from Print tab)
             </div>
           </div>
@@ -403,7 +491,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
                 <input type="range" id="calThresh" min="40" max="220" value="110" oninput="document.getElementById('calThreshVal').textContent=this.value" style="flex:1">
                 <span class="range-val" id="calThreshVal">110</span>
               </div>
-              <div style="font-size:9px;color:var(--muted);margin-top:3px">Lower = only very dark marks. Raise if auto-cal detects too few marks.</div>
+              <div style="font-size:14px;color:var(--text);margin-top:3px">Lower = only very dark marks. Raise if auto-cal detects too few marks.</div>
             </div>
             <div class="btn-row" style="flex-direction:column">
               <button class="btn btn-green btn-full" onclick="runAutoCal(false)">⚡ Auto-Cal from Test Scan Only</button>
@@ -491,7 +579,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
 
           <div class="card">
             <div class="card-title">📋 Loaded Numbers</div>
-            <div id="numTable"><div style="font-size:11px;color:var(--muted)">No numbers loaded.</div></div>
+            <div id="numTable"><div style="font-size:14px;color:var(--text)">No numbers loaded.</div></div>
           </div>
         </div>
 
@@ -608,8 +696,8 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
     <div class="grid-4">
       <div class="field"><label>Grid Cols</label><input id="mGCols" type="number" value="6" min="1" max="20"></div>
       <div class="field"><label>Grid Rows</label><input id="mGRows" type="number" value="6" min="1" max="20"></div>
-      <div class="field"><label>Ticket W (in)</label><input id="mTW" type="number" value="2.25" step="0.0625" min="0.5"></div>
-      <div class="field"><label>Ticket H (in)</label><input id="mTH" type="number" value="7.0" step="0.0625" min="1"></div>
+      <div class="field"><label>Ticket W (in)</label><input id="mTW" type="number" value="3.25" step="0.0625" min="0.5"></div>
+      <div class="field"><label>Ticket H (in)</label><input id="mTH" type="number" value="8.5" step="0.0625" min="1"></div>
     </div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
@@ -645,7 +733,7 @@ const DEFAULT_GAME = {
   panels: 10,  // ← CORRECTED: Fantasy 5 has 10 panels (A–J)
   panelLabels: ['A','B','C','D','E','F','G','H','I','J'],
   grid: { cols: 6, rows: 6 },
-  ticket: { width: 2.25, height: 14.0 },  // 10-panel ticket is taller
+  ticket: { width: 3.25, height: 8.5 },  // 10-panel ticket is taller
   cal: {
     gridX:    0.28,
     gridY:    0.72,
@@ -844,6 +932,90 @@ function saveSetup() {
 }
 
 // ════════════════════════════════════════════════════════════════════
+// IMAGE SOURCE TOGGLE (Phone vs Scanner)
+// ════════════════════════════════════════════════════════════════════
+
+function updateImageSourceUI() {
+  const isPhone = document.getElementById('srcPhone')?.checked;
+  document.getElementById('phoneInstructions').style.display   = isPhone ? 'block' : 'none';
+  document.getElementById('scannerInstructions').style.display = isPhone ? 'none'  : 'block';
+}
+
+document.getElementById('scannerDPI')?.addEventListener('change', function() {
+  const customRow = document.getElementById('customDPIRow');
+  if (customRow) customRow.style.display = this.value === 'custom' ? 'block' : 'none';
+});
+
+// Scanner upload — auto-calculates dimensions from pixel size ÷ DPI
+document.getElementById('rulerFile').addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const isScanner = document.getElementById('srcScanner')?.checked;
+  const fr = new FileReader();
+  fr.onload = ev => {
+    if (isScanner) {
+      // Auto-calculate from DPI
+      const img = new Image();
+      img.onload = () => {
+        const dpiSel = document.getElementById('scannerDPI')?.value;
+        const dpi = dpiSel === 'custom'
+          ? (parseFloat(document.getElementById('customDPI')?.value) || 300)
+          : parseFloat(dpiSel) || 300;
+        const longSide  = Math.round((Math.max(img.naturalWidth, img.naturalHeight) / dpi) * 16) / 16;
+        const shortSide = Math.round((Math.min(img.naturalWidth, img.naturalHeight) / dpi) * 16) / 16;
+        const g = G();
+        if (g) { g.ticket.width = shortSide; g.ticket.height = longSide; save(); }
+        document.getElementById('sTH').value = longSide;
+        document.getElementById('sTW').value = shortSide;
+        const res = document.getElementById('rulerResult');
+        if (res) {
+          res.style.display = 'block';
+          res.innerHTML = `<div class="alert alert-success">✓ Scanner dimensions: Long side <b>${longSide}"</b> · Short side <b>${shortSide}"</b><br>
+          Calculated at ${dpi} DPI from ${img.naturalWidth}×${img.naturalHeight}px. Click <b>Save Dimensions</b> to confirm.</div>`;
+        }
+        // Store image as blank ticket reference
+        S.blankImg = img;
+        S.rulerImg = img;
+      };
+      img.src = ev.target.result;
+    } else {
+      // Phone photo — use existing ruler wizard
+      const img = new Image();
+      img.onload = () => {
+        S.rulerImg = img;
+        S.rulerState = 1;
+        S.rulerPts = [];
+        S.rulerCorners = [];
+        const wrap = document.getElementById('rulerCanvasWrap');
+        wrap.style.display = 'block';
+        drawRulerCanvas();
+        updateRulerHint();
+      };
+      img.src = ev.target.result;
+    }
+  };
+  fr.readAsDataURL(file);
+});
+
+// Long side phone photo handler (reuses rulerFile logic with state tracking)
+document.getElementById('rulerFileLong')?.addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const zone = e.target.previousElementSibling;
+  if (zone) { zone.classList.add('loaded'); zone.querySelector('.uz-sub').textContent = file.name; }
+  // Feed into main ruler file handler
+  const dt = new DataTransfer();
+  dt.items.add(file);
+  document.getElementById('rulerFile').files = dt.files;
+  document.getElementById('rulerFile').dispatchEvent(new Event('change'));
+});
+
+document.getElementById('rulerFileShort')?.addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const zone = e.target.previousElementSibling;
+  if (zone) { zone.classList.add('loaded'); zone.querySelector('.uz-sub').textContent = file.name; }
+  alert2('setupAlert', '✓ Short side photo loaded. Long side measurement will be combined automatically.', 'info');
+});
+
+// ════════════════════════════════════════════════════════════════════
 // RULER PHOTO CALIBRATION
 // ════════════════════════════════════════════════════════════════════
 
@@ -863,26 +1035,6 @@ function updateRulerHint() {
   const distRow = document.getElementById('rulerDistRow');
   if (distRow) distRow.style.display = S.rulerState === 3 ? 'block' : 'none';
 }
-
-document.getElementById('rulerFile').addEventListener('change', e => {
-  const file = e.target.files[0]; if (!file) return;
-  const fr = new FileReader();
-  fr.onload = ev => {
-    const img = new Image();
-    img.onload = () => {
-      S.rulerImg = img;
-      S.rulerState = 1;
-      S.rulerPts = [];
-      S.rulerCorners = [];
-      const wrap = document.getElementById('rulerCanvasWrap');
-      wrap.style.display = 'block';
-      drawRulerCanvas();
-      updateRulerHint();
-    };
-    img.src = ev.target.result;
-  };
-  fr.readAsDataURL(file);
-});
 
 function drawRulerCanvas() {
   const img = S.rulerImg; if (!img) return;
@@ -1318,7 +1470,7 @@ function renderNumTable() {
   const tbl = document.getElementById('numTable');
   const g = G();
   if (!tbl || !g) return;
-  if (!S.picks.length) { tbl.innerHTML = '<div style="font-size:11px;color:var(--muted)">No numbers loaded.</div>'; return; }
+  if (!S.picks.length) { tbl.innerHTML = '<div style="font-size:14px;color:var(--text)">No numbers loaded.</div>'; return; }
   let h = '<table class="num-tbl"><thead><tr><th>Panel</th>';
   for (let i = 0; i < g.numbers.count; i++) h += `<th>#${i+1}</th>`;
   if (g.bonus) h += '<th>Bonus</th>';
