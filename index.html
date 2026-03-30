@@ -18,83 +18,136 @@
     padding: 24px;
     text-align: center;
   }
+
+  /* Constrain all content to the same visual width */
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+  }
+
   .logo {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: .2em;
+    font-size: clamp(24px, 5.8vw, 64px);
+    font-weight: 800;
+    letter-spacing: .18em;
     color: #f5c842;
     text-transform: uppercase;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 82%;
   }
+
   h1 {
-    font-size: clamp(28px, 6vw, 52px);
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 16px;
+    font-size: clamp(38px, 9vw, 80px);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 22px;
+    letter-spacing: -.01em;
+    width: 100%;
   }
+
   .sub {
-    font-size: clamp(15px, 2.5vw, 20px);
-    color: #888;
-    max-width: 480px;
-    line-height: 1.6;
-    margin-bottom: 40px;
+    font-size: clamp(16px, 2.2vw, 21px);
+    color: #f5c842;
+    max-width: 90%;
+    line-height: 1.65;
+    margin-bottom: 44px;
+    font-weight: 500;
   }
+
   .form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    width: 100%;
-    max-width: 400px;
+    gap: 14px;
+    width: 82%;
   }
-  input {
+
+  input[type="email"] {
     width: 100%;
-    padding: 14px 18px;
+    padding: 18px 22px;
     background: #16161f;
     border: 1px solid #2a2a40;
-    border-radius: 8px;
+    border-radius: 10px;
     color: #fff;
-    font-size: 16px;
+    font-size: 18px;
     outline: none;
+    transition: border-color .2s;
   }
-  input::placeholder { color: #555; }
+  input[type="email"]:focus {
+    border-color: #f5c842;
+  }
+  input[type="email"]::placeholder {
+    color: rgba(255,255,255,0.7);
+  }
+
   button {
     width: 100%;
-    padding: 14px;
+    padding: 22px 24px;
     background: #f5c842;
     color: #000;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 700;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 800;
     cursor: pointer;
-    letter-spacing: .04em;
+    letter-spacing: .03em;
+    transition: background .15s, transform .1s, box-shadow .15s;
+    box-shadow: 0 4px 28px rgba(245,200,66,.3);
   }
+  button:hover {
+    background: #ffd84d;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 36px rgba(245,200,66,.4);
+  }
+  button:active {
+    transform: translateY(0);
+  }
+
   .tagline {
-    margin-top: 48px;
-    font-size: 13px;
-    color: #444;
-    letter-spacing: .08em;
+    margin-top: 56px;
+    font-size: 12px;
+    color: #333;
+    letter-spacing: .16em;
     text-transform: uppercase;
+  }
+  .tagline span {
+    color: #3a3a3a;
+    margin: 0 10px;
   }
 </style>
 </head>
 <body>
-  <div class="logo">✈ PilotLotto</div>
-  <h1>Take Control of<br>Your Numbers</h1>
-  <p class="sub">Stop filling in lottery bubbles by hand.
-  Print your picks perfectly — every ticket, every time.</p>
+  <div class="content">
 
-  <form class="form"
-    action="https://app.kit.com/forms/YOUR_FORM_ID/subscriptions"
-    method="post">
-    <input
-      type="email"
-      name="email_address"
-      placeholder="Enter your email address"
-      required>
-    <button type="submit">Notify Me When We Launch →</button>
-  </form>
+    <div class="logo">✈ PilotLotto</div>
 
-  <p class="tagline">Printing · Wheeling · Analysis · Strategy</p>
+    <h1>Take Control of<br>Your Numbers</h1>
+
+    <p class="sub">Stop filling in lottery bubbles by hand.<br>
+    Print your picks perfectly — every ticket, every time.</p>
+
+    <form class="form"
+      action="https://app.kit.com/forms/YOUR_FORM_ID/subscriptions"
+      method="post"
+      target="_blank">
+      <input
+        type="email"
+        name="email_address"
+        placeholder="Enter your email address"
+        required>
+      <button type="submit">Notify Me When We Launch →</button>
+    </form>
+
+    <p class="tagline">
+      Printing<span>·</span>Wheeling<span>·</span>Analysis<span>·</span>Strategy
+    </p>
+
+  </div>
 </body>
 </html>
