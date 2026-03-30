@@ -209,6 +209,9 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
   <div class="sb-hdr">Games Library</div>
   <div class="sb-list" id="gameList"></div>
   <div class="sb-foot">
+    <div id="upgradeHint" style="display:none;margin-bottom:7px;padding:7px 9px;background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.2);border-radius:5px;font-size:13px;line-height:1.5;text-align:center">
+      <a href="https://pilotlotto.com" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:700">Want more games? See plans →</a>
+    </div>
     <button class="btn btn-ghost btn-full" onclick="showAddModal()">＋ Add Game</button>
   </div>
 </div>
@@ -307,6 +310,10 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             </div>
 
             <!-- Phone photo instructions -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <span style="font-size:13px;color:var(--text)">Need help getting photos from your phone?</span>
+              <button class="btn btn-ghost" style="padding:4px 10px;font-size:12px" onclick="document.getElementById('photoHelpModal').style.display='flex'">? Help</button>
+            </div>
             <div id="phoneInstructions">
               <div class="alert alert-info" style="margin-bottom:10px;font-size:13px">
                 <strong>Phone photo tips:</strong><br>
@@ -340,7 +347,8 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             <div id="scannerInstructions" style="display:none">
               <div class="alert alert-info" style="margin-bottom:10px;font-size:13px">
                 <strong>Scanner method — most accurate:</strong><br>
-                • Place ticket face-down on scanner, game name at top<br>
+                • Place ticket in a portrait orientation, game name toward the top of the scanner bed<br>
+                • Use the scanner guides to keep it straight<br>
                 • Scan at <strong>300 DPI</strong> (standard setting)<br>
                 • Save as JPG or PNG<br>
                 • App calculates exact dimensions from pixel count ÷ DPI — no ruler needed
@@ -364,20 +372,6 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             </div>
 
             <input type="file" id="rulerFile" accept="image/*">
-
-            <div id="rulerCanvasWrap" class="ruler-canvas-wrap" style="margin-top:10px;display:none">
-              <canvas id="rulerCanvas"></canvas>
-            </div>
-
-            <div id="rulerDistRow" style="display:none;margin-top:8px">
-              <div class="field">
-                <label>Known distance between your two ruler points (inches)</label>
-                <input id="rulerDist" type="number" min="0.1" max="24" step="0.0625" value="6">
-              </div>
-              <div class="btn-row">
-                <button class="btn btn-gold" onclick="confirmRulerDist()">✓ Confirm → Now click ticket corners</button>
-              </div>
-            </div>
 
             <div id="rulerCanvasWrap" class="ruler-canvas-wrap" style="margin-top:10px;display:none">
               <canvas id="rulerCanvas"></canvas>
@@ -673,6 +667,52 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
 
   </div>
 </div>
+</div>
+
+<!-- PHOTO TRANSFER HELP MODAL -->
+<div class="modal-bg" id="photoHelpModal" style="display:none">
+  <div class="modal" style="width:640px">
+    <div class="modal-title">📱 How to Get Photos Into PilotLotto</div>
+    <div style="font-size:14px;line-height:1.8;color:var(--text)">
+
+      <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">iPhone → Windows PC</div>
+      <ul style="margin-left:16px;margin-bottom:14px;color:var(--text)">
+        <li><strong>Google Photos</strong> — install on iPhone, photos auto-sync. Open photos.google.com on PC, download.</li>
+        <li><strong>iCloud for Windows</strong> — install iCloud app on PC, photos sync automatically going forward.</li>
+        <li><strong>Email to yourself</strong> — share photo via Mail, open email on PC, save attachment, upload.</li>
+        <li><strong>USB cable</strong> — plug iPhone into PC, open File Explorer, iPhone appears as a device, copy photos.</li>
+        <li><strong>OneDrive / Dropbox</strong> — install app on iPhone, upload photo, access on PC browser.</li>
+      </ul>
+
+      <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">iPhone → Mac</div>
+      <ul style="margin-left:16px;margin-bottom:14px;color:var(--text)">
+        <li><strong>AirDrop</strong> — fastest. Photos app → share → AirDrop → Mac. Lands in Downloads instantly.</li>
+        <li><strong>iCloud Photos</strong> — automatic if enabled. Photo appears in Mac Photos app within seconds.</li>
+        <li><strong>USB cable</strong> — plug in, open Image Capture on Mac, import photo.</li>
+      </ul>
+
+      <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">Android → Windows or Mac</div>
+      <ul style="margin-left:16px;margin-bottom:14px;color:var(--text)">
+        <li><strong>Google Photos</strong> — install on Android, sync enabled. Open photos.google.com on computer.</li>
+        <li><strong>USB cable</strong> — plug in, Android appears in File Explorer (PC) or via Android File Transfer app (Mac).</li>
+        <li><strong>Email / WhatsApp</strong> — send photo to yourself, open on computer, save and upload.</li>
+      </ul>
+
+      <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">Scanner → Windows or Mac</div>
+      <ul style="margin-left:16px;margin-bottom:14px;color:var(--text)">
+        <li>Scanner software saves to a folder on your computer automatically.</li>
+        <li>Navigate to that folder in the upload dialog and select the file.</li>
+        <li>Use <strong>JPG or PNG</strong> format — not PDF.</li>
+      </ul>
+
+      <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">iPhone File Format Tip</div>
+      <div style="margin-bottom:14px">iPhone saves photos as HEIC by default which can cause issues on Windows. To fix: <strong>Settings → Camera → Formats → Most Compatible</strong> — this saves as JPG instead.</div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-gold" onclick="document.getElementById('photoHelpModal').style.display='none'">Got it</button>
+    </div>
+  </div>
 </div>
 
 <!-- ADD GAME MODAL -->
@@ -1597,13 +1637,20 @@ function goLockedTab(name, desc, ...tiers) {
 function renderGameList() {
   const list = document.getElementById('gameList');
   const games = Object.values(S.games);
-  if (!games.length) { list.innerHTML = '<div style="padding:10px;font-size:10px;color:var(--muted)">No games saved.</div>'; return; }
+  if (!games.length) { list.innerHTML = '<div style="padding:10px;font-size:13px;color:var(--text)">No games saved.</div>'; return; }
   list.innerHTML = games.map(g => `
     <div class="game-item ${g.id === S.activeId ? 'active' : ''}" onclick="setActive('${g.id}')">
       <div class="gi-name">${g.name}</div>
       <div class="gi-sub">${g.state||''} · Pick ${g.numbers.count} of ${g.numbers.max} · ${g.panels} panels</div>
-      <div class="gi-cal ${g.calibrated ? 'ok' : 'bad'}">${g.calibrated ? '✓ Calibrated' : '⚠ Needs Cal'}</div>
+      <div class="gi-cal ${g.calibrated ? 'ok' : 'bad'}" style="cursor:${!g.calibrated?'pointer':'default'}" onclick="${!g.calibrated?'event.stopPropagation();goTab(\'calibrate\')':''}" title="${!g.calibrated?'Click to go to Calibrate tab':''}">${g.calibrated ? '✓ Calibrated' : '⚠ Click to Calibrate'}</div>
     </div>`).join('');
+  // Show upgrade hint based on tier
+  const hint = document.getElementById('upgradeHint');
+  if (hint) {
+    const gameLimits = { free:1, player:3, serious:10, power:999 };
+    const limit = gameLimits[USER_TIER] || 1;
+    hint.style.display = games.length >= limit && USER_TIER !== 'power' ? 'block' : 'none';
+  }
 }
 
 function updateHeader() {
