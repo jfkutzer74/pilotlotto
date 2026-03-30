@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're In — PilotLotto</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: #09090f;
+    color: #fff;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .logo {
+    font-size: clamp(16px, 3vw, 24px);
+    font-weight: 800;
+    letter-spacing: .18em;
+    color: #f5c842;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .check {
+    width: 72px;
+    height: 72px;
+    background: rgba(61,214,140,.12);
+    border: 2px solid #3dd68c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-size: clamp(32px, 7vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    letter-spacing: -.01em;
+  }
+
+  h1 span {
+    color: #f5c842;
+  }
+
+  .sub {
+    font-size: clamp(16px, 2.2vw, 20px);
+    color: #888;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  .what-next {
+    background: #16161f;
+    border: 1px solid #2a2a40;
+    border-radius: 12px;
+    padding: 28px 32px;
+    width: 82%;
+    text-align: left;
+    margin-bottom: 40px;
+  }
+
+  .what-next h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: #f5c842;
+    margin-bottom: 18px;
+  }
+
+  .what-next ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .what-next li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: clamp(14px, 1.8vw, 16px);
+    color: #aaa;
+    line-height: 1.5;
+  }
+
+  .what-next li .icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .divider {
+    width: 82%;
+    border: none;
+    border-top: 1px solid #1f1f30;
+    margin-bottom: 40px;
+  }
+
+  .share-section h2 {
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .share-section p {
+    font-size: clamp(14px, 1.8vw, 16px);
+    color: #888;
+    margin-bottom: 24px;
+    max-width: 460px;
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .share-btn {
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    letter-spacing: .03em;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity .15s, transform .1s;
+  }
+  .share-btn:hover { opacity: .85; transform: translateY(-1px); }
+  .share-btn:active { transform: translateY(0); }
+
+  .btn-facebook { background: #1877f2; color: #fff; }
+  .btn-twitter  { background: #000; color: #fff; border: 1px solid #333; }
+  .btn-copy     { background: #f5c842; color: #000; }
+
+  .back-link {
+    font-size: 14px;
+    color: #444;
+    text-decoration: none;
+    letter-spacing: .05em;
+    transition: color .15s;
+  }
+  .back-link:hover { color: #f5c842; }
+
+  .tagline {
+    margin-top: 48px;
+    font-size: 12px;
+    color: #222;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .tagline span { margin: 0 10px; color: #2a2a2a; }
+
+  /* Copy confirmation toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #3dd68c;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: transform .3s ease;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+  <div class="content">
+
+    <div class="logo">✈ PilotLotto</div>
+
+    <div class="check">✓</div>
+
+    <h1>You're <span>In.</span></h1>
+
+    <p class="sub">
+      We'll email you the moment PilotLotto launches.<br>
+      Get ready to stop filling in bubbles forever.
+    </p>
+
+    <div class="what-next">
+      <h2>What happens next</h2>
+      <ul>
+        <li>
+          <span class="icon">✉</span>
+          <span>You'll get a launch notification email from <strong>hello@pilotlotto.com</strong> — add it to your contacts so it doesn't land in spam.</span>
+        </li>
+        <li>
+          <span class="icon">🎯</span>
+          <span>PilotLotto will print your lottery numbers perfectly on any ticket — no more hand-filling, no more mistakes.</span>
+        </li>
+        <li>
+          <span class="icon">🔒</span>
+          <span>Early subscribers get first access and founding member pricing — locked in for life.</span>
+        </li>
+      </ul>
+    </div>
+
+    <hr class="divider">
+
+    <div class="share-section">
+      <h2>Know someone who plays?</h2>
+      <p>One share takes 10 seconds and saves them hours of bubble-filling every year.</p>
+
+      <div class="share-buttons">
+        <a class="share-btn btn-facebook"
+          href="https://www.facebook.com/sharer/sharer.php?u=https://pilotlotto.com"
+          target="_blank" rel="noopener">
+          👍 Share on Facebook
+        </a>
+        <a class="share-btn btn-twitter"
+          href="https://twitter.com/intent/tweet?text=Stop%20filling%20in%20lottery%20bubbles%20by%20hand.%20PilotLotto%20prints%20your%20picks%20perfectly%20every%20time.%20Launching%20soon%20%E2%9C%88%EF%B8%8F&url=https://pilotlotto.com"
+          target="_blank" rel="noopener">
+          𝕏 Share on X
+        </a>
+        <button class="share-btn btn-copy" onclick="copyLink()">
+          🔗 Copy Link
+        </button>
+      </div>
+    </div>
+
+    <a href="https://pilotlotto.com" class="back-link">← Back to PilotLotto</a>
+
+    <p class="tagline">
+      Printing<span>·</span>Wheeling<span>·</span>Analysis<span>·</span>Strategy
+    </p>
+
+  </div>
+
+  <div class="toast" id="toast">Link copied to clipboard!</div>
+
+<script>
+  function copyLink() {
+    navigator.clipboard.writeText('https://pilotlotto.com').then(() => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    });
+  }
+</script>
+
+</body>
+</html>
