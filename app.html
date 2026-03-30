@@ -29,7 +29,7 @@ body { font-family:var(--ui); background:var(--bg); color:var(--text); display:f
 button { cursor:pointer; font-family:inherit; }
 input,select,textarea { font-family:inherit; }
 code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5px; border-radius:3px; font-size:0.9em; }
-
+ 
 /* ── HEADER ── */
 .hdr { flex-shrink:0; background:var(--surf); border-bottom:1px solid var(--border); height:48px;
        display:flex; align-items:center; padding:0 16px; gap:12px; z-index:10; }
@@ -42,10 +42,10 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 .hdr-tier.player { background:rgba(245,200,66,.15); color:var(--gold); }
 .hdr-game { margin-left:auto; font-size:15px; color:var(--text); }
 .hdr-game b { color:var(--green); }
-
+ 
 /* ── LAYOUT ── */
 .body { display:flex; flex:1; overflow:hidden; }
-
+ 
 /* ── SIDEBAR ── */
 .sidebar { width:190px; flex-shrink:0; background:var(--surf); border-right:1px solid var(--border); display:flex; flex-direction:column; overflow:hidden; }
 .sb-hdr { padding:10px 12px; font-size:14px; text-transform:uppercase; letter-spacing:.14em; color:var(--gold); border-bottom:1px solid var(--border); flex-shrink:0; }
@@ -60,25 +60,25 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 .gi-cal.ok  { background:rgba(61,214,140,.12); color:var(--green); }
 .gi-cal.bad { background:rgba(245,200,66,.1);  color:var(--gold); }
 .sb-foot { padding:8px; border-top:1px solid var(--border); flex-shrink:0; }
-
+ 
 /* ── WORKSPACE ── */
 .workspace { flex:1; display:flex; flex-direction:column; overflow:hidden; min-width:0; }
-
+ 
 /* ── TABS ── */
 .tabs { flex-shrink:0; display:flex; background:var(--surf); border-bottom:1px solid var(--border); padding:0 16px; overflow-x:auto; }
-.tab-btn { padding:13px 18px; font-size:15px; font-weight:500; color:var(--muted); background:transparent; border:none; border-bottom:2px solid transparent; transition:all .15s; letter-spacing:.03em; white-space:nowrap; }
-.tab-btn:hover { color:var(--text); }
+.tab-btn { padding:13px 18px; font-size:15px; font-weight:500; color:#7ab3e0; background:transparent; border:none; border-bottom:2px solid transparent; transition:all .15s; letter-spacing:.03em; white-space:nowrap; }
+.tab-btn:hover { color:#fff; }
 .tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); }
 .tab-btn.locked { color:var(--muted); cursor:not-allowed; opacity:.6; }
 .tab-btn.locked:hover { color:var(--muted); }
 .tab-lock-icon { font-size:9px; margin-left:4px; }
-
+ 
 /* ── PANES ── */
 .panes { flex:1; overflow:hidden; position:relative; }
 .pane { position:absolute; inset:0; overflow-y:auto; padding:16px; display:none; }
 .pane.active { display:block; }
 .pane::-webkit-scrollbar { width:5px; } .pane::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
-
+ 
 /* ── CARDS ── */
 .card { background:var(--panel); border:1px solid var(--border); border-radius:var(--r); padding:14px; margin-bottom:12px; }
 .card-sm { background:var(--bg); border:1px solid var(--border); border-radius:var(--r); padding:10px; margin-bottom:10px; }
@@ -86,7 +86,7 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 .badge { font-size:12px; padding:1px 5px; border-radius:3px; font-weight:700; letter-spacing:.05em; }
 .badge-blue { background:rgba(91,164,245,.2); color:#c8dfff; }
 .badge-green { background:rgba(61,214,140,.2); color:var(--green); }
-
+ 
 /* ── FORMS ── */
 .field { margin-bottom:9px; } .field:last-child { margin-bottom:0; }
 .field label { display:block; font-size:15px; text-transform:uppercase; letter-spacing:.09em; color:var(--gold); margin-bottom:5px; }
@@ -97,7 +97,7 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
 .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
 .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; }
-
+ 
 /* ── BUTTONS ── */
 .btn { display:inline-flex; align-items:center; justify-content:center; gap:5px; padding:9px 18px; border-radius:4px; font-size:15px; font-weight:600; letter-spacing:.04em; border:1px solid transparent; transition:all .15s; white-space:nowrap; }
 .btn:active { transform:scale(.97); } .btn:disabled { opacity:.35; cursor:not-allowed; }
@@ -109,14 +109,14 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 .btn-ghost:hover { color:var(--text); border-color:var(--border2); }
 .btn-full { width:100%; }
 .btn-row { display:flex; gap:7px; flex-wrap:wrap; margin-top:10px; }
-
+ 
 /* ── ALERTS ── */
 .alert { padding:10px 14px; border-radius:var(--r); font-size:15px; line-height:1.6; border:1px solid; margin-bottom:10px; }
 .alert-info    { background:rgba(91,164,245,.08); border-color:rgba(91,164,245,.25); color:#c8dfff; }
 .alert-success { background:rgba(61,214,140,.08); border-color:rgba(61,214,140,.25); color:var(--green); }
 .alert-warn    { background:rgba(245,200,66,.08); border-color:rgba(245,200,66,.25); color:var(--gold); }
 .alert-error   { background:rgba(242,112,102,.08); border-color:rgba(242,112,102,.25); color:var(--red); }
-
+ 
 /* ── UPLOAD ZONES ── */
 .upload-zone { border:1px dashed var(--border2); border-radius:var(--r); padding:18px 14px; text-align:center; cursor:pointer; font-size:15px; color:var(--text); transition:all .2s; user-select:none; }
 .upload-zone:hover { border-color:var(--gold); color:var(--gold); }
@@ -124,38 +124,38 @@ code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5
 .upload-zone .uz-icon { font-size:22px; margin-bottom:4px; }
 .upload-zone .uz-sub { font-size:13px; margin-top:3px; opacity:.7; }
 input[type=file] { display:none; }
-
+ 
 /* ── CANVAS WRAP ── */
 .canvas-wrap { position:relative; background:#0a0a0a; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
 .canvas-wrap canvas { display:block; max-width:100%; }
-
+ 
 /* ── NUM TABLE ── */
 .num-tbl { width:100%; border-collapse:collapse; font-size:15px; font-family:var(--mono); }
 .num-tbl th { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--gold); padding:4px 6px; border-bottom:1px solid var(--border); text-align:center; }
 .num-tbl td { padding:4px 7px; border-bottom:1px solid var(--border); text-align:center; }
 .num-tbl .td-panel { color:var(--gold); font-weight:700; }
 .num-tbl .td-picked { color:var(--green); font-weight:700; }
-
+ 
 /* ── GRID PREVIEW ── */
 .grid-tbl { border-collapse:collapse; font-size:14px; font-family:var(--mono); }
 .grid-tbl td { width:22px; height:18px; text-align:center; border:1px solid var(--border); color:var(--text); }
 .grid-tbl td.filled { background:rgba(245,200,66,.07); color:var(--text); }
-
+ 
 /* ── RULER WIZARD ── */
 .wizard-step { font-size:15px; padding:8px 12px; background:rgba(245,200,66,.07); border-left:2px solid var(--gold); border-radius:0 var(--r) var(--r) 0; margin-bottom:10px; line-height:1.7; }
 .ruler-canvas-wrap { position:relative; cursor:crosshair; }
 .ruler-canvas-wrap canvas { display:block; max-width:100%; max-height:45vh; }
-
+ 
 /* ── CAL DUAL LAYOUT ── */
 .cal-layout { display:grid; grid-template-columns:1fr 320px; gap:12px; min-height:0; }
 .print-layout { display:grid; grid-template-columns:1fr 300px; gap:12px; }
-
+ 
 /* ── MODAL ── */
 .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.65); display:flex; align-items:center; justify-content:center; z-index:200; backdrop-filter:blur(3px); }
 .modal { background:var(--panel); border:1px solid var(--border2); border-radius:8px; padding:20px; width:500px; max-width:calc(100vw - 30px); max-height:calc(100vh - 60px); overflow-y:auto; }
 .modal-title { font-size:22px; font-weight:700; color:var(--gold); margin-bottom:14px; }
 .modal-foot { display:flex; justify-content:flex-end; gap:8px; margin-top:14px; }
-
+ 
 /* ── COMING SOON PANE ── */
 .coming-soon-pane { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; text-align:center; padding:40px; }
 .coming-soon-icon { font-size:48px; margin-bottom:16px; }
@@ -169,20 +169,20 @@ input[type=file] { display:none; }
 .tier-dot.blue   { background:var(--blue); }
 .tier-dot.green  { background:var(--green); }
 .tier-dot.orange { background:var(--orange); }
-
+ 
 /* ── TICKET COUNTER ── */
 .ticket-counter { background:rgba(245,200,66,.06); border:1px solid rgba(245,200,66,.2); border-radius:var(--r); padding:10px 14px; font-size:15px; display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
 .tc-label { color:var(--muted); }
 .tc-val { color:var(--gold); font-weight:700; font-family:var(--mono); }
 .tc-limit { color:var(--muted); font-size:10px; }
-
+ 
 /* ── DIVIDER ── */
 hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
-
+ 
 /* ── RANGE LABEL ── */
 .range-row { display:flex; align-items:center; gap:8px; }
 .range-val { font-size:15px; font-family:var(--mono); color:var(--gold); width:40px; text-align:right; flex-shrink:0; }
-
+ 
 @media print {
   * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
   body,html { height:auto; overflow:visible; }
@@ -190,7 +190,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
 </style>
 </head>
 <body>
-
+ 
 <!-- HEADER -->
 <header class="hdr">
   <div class="hdr-logo">
@@ -201,9 +201,9 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
   </div>
   <span class="hdr-game" id="hdrGame">No game selected</span>
 </header>
-
+ 
 <div class="body">
-
+ 
 <!-- SIDEBAR -->
 <div class="sidebar">
   <div class="sb-hdr">Games Library</div>
@@ -215,29 +215,29 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
     <button class="btn btn-ghost btn-full" onclick="showAddModal()">＋ Add Game</button>
   </div>
 </div>
-
+ 
 <!-- WORKSPACE -->
 <div class="workspace">
-
+ 
   <!-- TABS -->
   <div class="tabs">
-    <button class="tab-btn active" data-tab="setup"     onclick="goTab('setup')">① Setup</button>
-    <button class="tab-btn"        data-tab="test"      onclick="goTab('test')">② Test Print</button>
-    <button class="tab-btn"        data-tab="calibrate" onclick="goTab('calibrate')">③ Calibrate</button>
-    <button class="tab-btn"        data-tab="print"     onclick="goTab('print')">④ Print Numbers</button>
-    <button class="tab-btn locked" data-tab="wheel"     onclick="goLockedTab('Wheel Builder','Build all combinations of your chosen numbers — the most powerful way to cover more winning possibilities.','Player','Serious','Power')">🔒 Wheel Builder<span class="tab-lock-icon"></span></button>
-    <button class="tab-btn locked" data-tab="analysis"  onclick="goLockedTab('Number Analysis','Hot/cold number tracking, frequency charts, and draw history analysis for your games.','Serious','Power')">🔒 Analysis<span class="tab-lock-icon"></span></button>
-    <button class="tab-btn locked" data-tab="history"   onclick="goLockedTab('Draw History','Import draw results directly from your state lottery site. Unlock patterns and trends.','Serious','Power')">🔒 Draw History<span class="tab-lock-icon"></span></button>
+    <button class="tab-btn active" data-tab="setup"     onclick="goTab('setup')">1. Setup</button>
+    <button class="tab-btn"        data-tab="test"      onclick="goTab('test')">2. Test Print</button>
+    <button class="tab-btn"        data-tab="calibrate" onclick="goTab('calibrate')">3. Calibrate</button>
+    <button class="tab-btn"        data-tab="print"     onclick="goTab('print')">4. Print Numbers</button>
+    <button class="tab-btn locked" data-tab="wheel"     onclick="goLockedTab('Wheel Builder','Build all combinations of your chosen numbers — the most powerful way to cover more winning possibilities.','Player','Serious','Power')">🔒 Wheel Builder</button>
+    <button class="tab-btn locked" data-tab="analysis"  onclick="goLockedTab('Number Analysis','Hot/cold number tracking, frequency charts, and draw history analysis for your games.','Serious','Power')">🔒 Analysis</button>
+    <button class="tab-btn locked" data-tab="history"   onclick="goLockedTab('Draw History','Import draw results directly from your state lottery site. Unlock patterns and trends.','Serious','Power')">🔒 Draw History</button>
   </div>
-
+ 
   <div class="panes">
-
+ 
     <!-- ══════════════════ SETUP ══════════════════ -->
     <div class="pane active" id="pane-setup">
       <div id="setupAlert" class="alert" style="display:none"></div>
-
+ 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-
+ 
         <!-- Game Config -->
         <div>
           <div class="card">
@@ -248,23 +248,23 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             </div>
             <div class="grid-4">
               <div class="field"><label>Pick Count</label><input id="sCount" type="number" min="1" max="10"></div>
-              <div class="field"><label>Min Number</label><input id="sMin" type="number" min="1" max="99"></div>
-              <div class="field"><label>Max Number</label><input id="sMax" type="number" min="2" max="99"></div>
+              <div class="field"><label>Min Number</label><input id="sMin" type="number" min="1" max="99" oninput="updateGridValidation()"></div>
+              <div class="field"><label>Max Number</label><input id="sMax" type="number" min="2" max="99" oninput="updateGridValidation()"></div>
               <div class="field"><label>Panels/Ticket</label><input id="sPanels" type="number" min="1" max="10"></div>
             </div>
             <div class="grid-2">
-              <div class="field"><label>Grid Columns</label><input id="sGCols" type="number" min="1" max="20"></div>
-              <div class="field"><label>Grid Rows</label><input id="sGRows" type="number" min="1" max="20"></div>
+              <div class="field"><label>Grid Columns</label><input id="sGCols" type="number" min="1" max="20" oninput="updateGridValidation()"></div>
+              <div class="field"><label>Grid Rows</label><input id="sGRows" type="number" min="1" max="20" oninput="updateGridValidation()"></div>
             </div>
-            <div class="alert alert-info" style="margin-top:8px;margin-bottom:0;font-size:15px">
-              Grid cols × rows must equal or exceed the max number. Fantasy 5: 6×6=36. Panels: Fantasy 5 = 10 (A–J), Powerball = 5 (A–E).
+            <div id="gridValidation" class="alert alert-info" style="margin-top:8px;margin-bottom:0;font-size:15px">
+              Enter your grid settings above to validate.
             </div>
             <div class="btn-row">
               <button class="btn btn-gold" onclick="saveSetup()">Save Settings</button>
               <button class="btn btn-red"  onclick="doDeleteGame()">Delete Game</button>
             </div>
           </div>
-
+ 
           <!-- Ticket Dimensions -->
           <div class="card">
             <div class="card-title">📏 Ticket Dimensions</div>
@@ -284,7 +284,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             </div>
           </div>
         </div>
-
+ 
         <!-- Ticket Image + Measurement -->
         <div>
           <div class="card">
@@ -293,7 +293,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
               A ticket image is <strong>required</strong> for calibration and to show you how to feed the ticket.
               Choose your image source below.
             </div>
-
+ 
             <!-- Image source selector -->
             <div class="field" style="margin-bottom:12px">
               <label>Image Source</label>
@@ -308,7 +308,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
                 </label>
               </div>
             </div>
-
+ 
             <!-- Phone photo instructions -->
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
               <span style="font-size:13px;color:var(--text)">Need help getting photos from your phone?</span>
@@ -342,7 +342,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
                 </div>
               </div>
             </div>
-
+ 
             <!-- Scanner instructions -->
             <div id="scannerInstructions" style="display:none">
               <div class="alert alert-info" style="margin-bottom:10px;font-size:13px">
@@ -370,13 +370,13 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
                 <div class="uz-sub">JPG or PNG · 300 DPI recommended</div>
               </div>
             </div>
-
+ 
             <input type="file" id="rulerFile" accept="image/*">
-
+ 
             <div id="rulerCanvasWrap" class="ruler-canvas-wrap" style="margin-top:10px;display:none">
               <canvas id="rulerCanvas"></canvas>
             </div>
-
+ 
             <div id="rulerDistRow" style="display:none;margin-top:8px">
               <div class="field">
                 <label>Known distance between your two ruler points (inches)</label>
@@ -386,24 +386,24 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
                 <button class="btn btn-gold" onclick="confirmRulerDist()">✓ Confirm → Now click ticket corners</button>
               </div>
             </div>
-
+ 
             <div id="rulerResult" style="display:none;margin-top:10px"></div>
-
+ 
             <!-- Feed direction guide -->
             <div class="alert alert-info" style="margin-top:12px;font-size:13px">
               ✈ <strong>How to feed your ticket:</strong> Hold the ticket with the game name upright (portrait).
               Feed the <strong>game name end in first</strong>, face up, centered in the slot.
             </div>
-
+ 
           </div>
         </div>
       </div>
     </div>
-
+ 
     <!-- ══════════════════ TEST PRINT ══════════════════ -->
     <div class="pane" id="pane-test">
       <div style="max-width:700px;margin:0 auto">
-
+ 
         <div class="card">
           <div class="card-title">🖨 How the Test Print Works</div>
           <div class="alert alert-info" style="margin-bottom:12px">
@@ -429,21 +429,21 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             <button class="btn btn-gold" onclick="doPrintTest()">⎙ Print Test Pattern</button>
           </div>
         </div>
-
+ 
         <div class="card">
           <div class="card-title">📊 Number Grid Layout</div>
           <div id="gridPreview" style="font-size:14px;color:var(--text)">Load a game to see grid.</div>
         </div>
-
+ 
       </div>
     </div>
-
+ 
     <!-- ══════════════════ CALIBRATE ══════════════════ -->
     <div class="pane" id="pane-calibrate">
       <div id="calAlert" class="alert" style="display:none"></div>
-
+ 
       <div class="cal-layout">
-
+ 
         <div>
           <div class="card" style="margin-bottom:8px">
             <div class="card-title">👁 Live Alignment Preview</div>
@@ -474,9 +474,9 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             </div>
           </div>
         </div>
-
+ 
         <div style="overflow-y:auto;padding-right:2px">
-
+ 
           <div class="card">
             <div class="card-title">🤖 Auto-Calibrate <span class="badge badge-green">Recommended</span></div>
             <div class="field">
@@ -493,7 +493,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             </div>
             <div style="font-size:9px;color:var(--muted);margin-top:6px" id="calResult"></div>
           </div>
-
+ 
           <div class="card">
             <div class="card-title">🎛 Manual Fine-Tune</div>
             <div class="grid-2">
@@ -513,7 +513,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
               <button class="btn btn-ghost" onclick="resetCal()">↺ Reset Defaults</button>
             </div>
           </div>
-
+ 
           <div class="card">
             <div class="card-title">📐 Print Offset Correction</div>
             <div class="field">
@@ -531,24 +531,24 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
               </div>
             </div>
           </div>
-
+ 
         </div>
       </div>
     </div>
-
+ 
     <!-- ══════════════════ PRINT NUMBERS ══════════════════ -->
     <div class="pane" id="pane-print">
       <div id="printAlert" class="alert" style="display:none"></div>
-
+ 
       <div class="print-layout">
-
+ 
         <div>
           <!-- Ticket counter -->
           <div class="ticket-counter" id="ticketCounter">
             <span class="tc-label">Tickets this run</span>
             <span><span class="tc-val" id="tcCount">0</span> <span class="tc-limit" id="tcLimit">/ 2 (Free tier)</span></span>
           </div>
-
+ 
           <div class="card">
             <div class="card-title">📂 Load Numbers — CSV File</div>
             <div class="alert alert-info" style="margin-bottom:10px">
@@ -561,7 +561,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             </div>
             <input type="file" id="csvFile" accept=".csv,.txt">
           </div>
-
+ 
           <div class="card">
             <div class="card-title">✏ Manual Number Entry</div>
             <div id="manualPanelsWrap"></div>
@@ -570,13 +570,13 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
               <button class="btn btn-gold"  onclick="applyManual()">Use These Numbers</button>
             </div>
           </div>
-
+ 
           <div class="card">
             <div class="card-title">📋 Loaded Numbers</div>
             <div id="numTable"><div style="font-size:14px;color:var(--text)">No numbers loaded.</div></div>
           </div>
         </div>
-
+ 
         <div>
           <div class="card">
             <div class="card-title">🖨 Print Settings</div>
@@ -615,10 +615,10 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
             </button>
           </div>
         </div>
-
+ 
       </div>
     </div>
-
+ 
     <!-- ══════════════════ WHEEL BUILDER (LOCKED) ══════════════════ -->
     <div class="pane" id="pane-wheel">
       <div class="coming-soon-pane">
@@ -634,7 +634,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
         <a href="https://pilotlotto.com" target="_blank" class="btn btn-gold">View Plans →</a>
       </div>
     </div>
-
+ 
     <!-- ══════════════════ ANALYSIS (LOCKED) ══════════════════ -->
     <div class="pane" id="pane-analysis">
       <div class="coming-soon-pane">
@@ -649,7 +649,7 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
         <a href="https://pilotlotto.com" target="_blank" class="btn btn-gold">View Plans →</a>
       </div>
     </div>
-
+ 
     <!-- ══════════════════ DRAW HISTORY (LOCKED) ══════════════════ -->
     <div class="pane" id="pane-history">
       <div class="coming-soon-pane">
@@ -664,17 +664,17 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
         <a href="https://pilotlotto.com" target="_blank" class="btn btn-gold">View Plans →</a>
       </div>
     </div>
-
+ 
   </div>
 </div>
 </div>
-
+ 
 <!-- PHOTO TRANSFER HELP MODAL -->
 <div class="modal-bg" id="photoHelpModal" style="display:none">
   <div class="modal" style="width:640px">
     <div class="modal-title">📱 How to Get Photos Into PilotLotto</div>
     <div style="font-size:14px;line-height:1.8;color:var(--text)">
-
+ 
       <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">iPhone → Windows PC</div>
       <ul style="margin-left:16px;margin-bottom:14px;color:var(--text)">
         <li><strong>Google Photos</strong> — install on iPhone, photos auto-sync. Open photos.google.com on PC, download.</li>
@@ -683,38 +683,38 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
         <li><strong>USB cable</strong> — plug iPhone into PC, open File Explorer, iPhone appears as a device, copy photos.</li>
         <li><strong>OneDrive / Dropbox</strong> — install app on iPhone, upload photo, access on PC browser.</li>
       </ul>
-
+ 
       <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">iPhone → Mac</div>
       <ul style="margin-left:16px;margin-bottom:14px;color:var(--text)">
         <li><strong>AirDrop</strong> — fastest. Photos app → share → AirDrop → Mac. Lands in Downloads instantly.</li>
         <li><strong>iCloud Photos</strong> — automatic if enabled. Photo appears in Mac Photos app within seconds.</li>
         <li><strong>USB cable</strong> — plug in, open Image Capture on Mac, import photo.</li>
       </ul>
-
+ 
       <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">Android → Windows or Mac</div>
       <ul style="margin-left:16px;margin-bottom:14px;color:var(--text)">
         <li><strong>Google Photos</strong> — install on Android, sync enabled. Open photos.google.com on computer.</li>
         <li><strong>USB cable</strong> — plug in, Android appears in File Explorer (PC) or via Android File Transfer app (Mac).</li>
         <li><strong>Email / WhatsApp</strong> — send photo to yourself, open on computer, save and upload.</li>
       </ul>
-
+ 
       <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">Scanner → Windows or Mac</div>
       <ul style="margin-left:16px;margin-bottom:14px;color:var(--text)">
         <li>Scanner software saves to a folder on your computer automatically.</li>
         <li>Navigate to that folder in the upload dialog and select the file.</li>
         <li>Use <strong>JPG or PNG</strong> format — not PDF.</li>
       </ul>
-
+ 
       <div style="color:var(--gold);font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.1em">iPhone File Format Tip</div>
       <div style="margin-bottom:14px">iPhone saves photos as HEIC by default which can cause issues on Windows. To fix: <strong>Settings → Camera → Formats → Most Compatible</strong> — this saves as JPG instead.</div>
-
+ 
     </div>
     <div class="modal-foot">
       <button class="btn btn-gold" onclick="document.getElementById('photoHelpModal').style.display='none'">Got it</button>
     </div>
   </div>
 </div>
-
+ 
 <!-- ADD GAME MODAL -->
 <div class="modal-bg" id="addModal" style="display:none">
   <div class="modal">
@@ -745,15 +745,15 @@ hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
     </div>
   </div>
 </div>
-
+ 
 <script>
 // ════════════════════════════════════════════════════════════════════
 // CONSTANTS
 // ════════════════════════════════════════════════════════════════════
-
+ 
 const STORE_KEY = 'pilotLotto_v1';
 const PAGE_W = 8.5, PAGE_H = 11.0;
-
+ 
 // TIER CONFIG — update when Supabase auth is wired in
 const TIERS = {
   free:     { label:'Free',    ticketsPerRun: 2,   color:'blue' },
@@ -763,7 +763,7 @@ const TIERS = {
 };
 // Change this to switch active tier (will be set by Supabase auth later)
 let USER_TIER = 'free';
-
+ 
 const DEFAULT_GAME = {
   id: 'fl-fantasy5',
   name: 'Florida Fantasy 5',
@@ -786,11 +786,11 @@ const DEFAULT_GAME = {
   },
   calibrated: false,
 };
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════════════════════════════════
-
+ 
 const S = {
   games: {},
   activeId: null,
@@ -806,11 +806,11 @@ const S = {
   rulerKnownDist: 0,
   rulerPPI: 0,
 };
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // PERSISTENCE
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function loadStore() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
@@ -826,20 +826,20 @@ function loadStore() {
   }
   if (!S.activeId || !S.games[S.activeId]) S.activeId = Object.keys(S.games)[0] || null;
 }
-
+ 
 function save() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify({ games: S.games, activeId: S.activeId })); }
   catch(e) { console.warn('Storage full:', e); }
 }
-
+ 
 function G() { return S.activeId ? S.games[S.activeId] : null; }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // TIER SYSTEM
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function getTierLimit() { return TIERS[USER_TIER]?.ticketsPerRun || 2; }
-
+ 
 function updateTierUI() {
   const t = TIERS[USER_TIER];
   const el = document.getElementById('hdrTier');
@@ -848,7 +848,7 @@ function updateTierUI() {
     el.className = `hdr-tier ${t.color}`;
   }
 }
-
+ 
 function updateTicketCounter() {
   const g = G(); if (!g) return;
   const panelsLoaded = S.picks.length;
@@ -859,20 +859,20 @@ function updateTicketCounter() {
   const warn = document.getElementById('tierWarning');
   if (warn) warn.style.display = ticketsLoaded > limit ? 'block' : 'none';
 }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // GAME CRUD
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function setActive(id) { S.activeId = id; save(); renderAll(); }
-
+ 
 function addGame(g) {
   const id = 'g_' + Date.now();
   S.games[id] = { ...g, id };
   S.activeId = id;
   save(); renderAll();
 }
-
+ 
 function doDeleteGame() {
   if (!S.activeId) return;
   if (!confirm('Delete "' + (G()?.name || '') + '"?')) return;
@@ -880,10 +880,10 @@ function doDeleteGame() {
   S.activeId = Object.keys(S.games)[0] || null;
   save(); renderAll();
 }
-
+ 
 function showAddModal() { document.getElementById('addModal').style.display = 'flex'; }
 function closeModal()   { document.getElementById('addModal').style.display = 'none'; }
-
+ 
 function submitAddGame() {
   const v = id => document.getElementById(id)?.value;
   const n = id => parseFloat(v(id));
@@ -905,11 +905,11 @@ function submitAddGame() {
   });
   closeModal();
 }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // GRID POSITION MATH
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function numPos(game, panelIdx, number) {
   const idx = number - game.numbers.min;
   const col = idx % game.grid.cols;
@@ -919,7 +919,7 @@ function numPos(game, panelIdx, number) {
     y: game.cal.gridY + panelIdx * game.cal.panelH + row * game.cal.cellH + (game.cal.vOff || 0),
   };
 }
-
+ 
 function allPositions(game) {
   const out = [];
   for (let pi = 0; pi < game.panels; pi++)
@@ -927,13 +927,13 @@ function allPositions(game) {
       out.push({ pi, n, ...numPos(game, pi, n) });
   return out;
 }
-
+ 
 function printX(game, x) { return (PAGE_W - game.ticket.width) / 2 + x; }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // SETUP TAB
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function fillSetupForm() {
   const g = G(); if (!g) return;
   const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
@@ -947,8 +947,32 @@ function fillSetupForm() {
   set('sGRows',  g.grid.rows);
   set('sTW',     g.ticket.width);
   set('sTH',     g.ticket.height);
+  updateGridValidation();
 }
-
+ 
+function updateGridValidation() {
+  const el = document.getElementById('gridValidation');
+  if (!el) return;
+  const cols = parseInt(document.getElementById('sGCols')?.value) || 0;
+  const rows = parseInt(document.getElementById('sGRows')?.value) || 0;
+  const maxN = parseInt(document.getElementById('sMax')?.value) || 0;
+  const minN = parseInt(document.getElementById('sMin')?.value) || 1;
+  const needed = maxN - minN + 1;
+  const capacity = cols * rows;
+  if (!cols || !rows || !maxN) {
+    el.className = 'alert alert-info';
+    el.textContent = 'Enter grid columns, rows, and max number to validate.';
+    return;
+  }
+  if (capacity >= needed) {
+    el.className = 'alert alert-success';
+    el.textContent = `✓ ${cols} cols × ${rows} rows = ${capacity} cells — covers all ${needed} numbers (${minN}–${maxN}).`;
+  } else {
+    el.className = 'alert alert-error';
+    el.textContent = `✗ ${cols} × ${rows} = ${capacity} cells — not enough for ${needed} numbers (${minN}–${maxN}). Increase columns or rows.`;
+  }
+}
+ 
 function saveSetup() {
   const g = G(); if (!g) return;
   const v = id => document.getElementById(id)?.value;
@@ -970,22 +994,22 @@ function saveSetup() {
   renderGameList();
   alert2('setupAlert', '✓ Saved.', 'success');
 }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // IMAGE SOURCE TOGGLE (Phone vs Scanner)
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function updateImageSourceUI() {
   const isPhone = document.getElementById('srcPhone')?.checked;
   document.getElementById('phoneInstructions').style.display   = isPhone ? 'block' : 'none';
   document.getElementById('scannerInstructions').style.display = isPhone ? 'none'  : 'block';
 }
-
+ 
 document.getElementById('scannerDPI')?.addEventListener('change', function() {
   const customRow = document.getElementById('customDPIRow');
   if (customRow) customRow.style.display = this.value === 'custom' ? 'block' : 'none';
 });
-
+ 
 // Scanner upload — auto-calculates dimensions from pixel size ÷ DPI
 document.getElementById('rulerFile').addEventListener('change', e => {
   const file = e.target.files[0]; if (!file) return;
@@ -1035,7 +1059,7 @@ document.getElementById('rulerFile').addEventListener('change', e => {
   };
   fr.readAsDataURL(file);
 });
-
+ 
 // Long side phone photo handler (reuses rulerFile logic with state tracking)
 document.getElementById('rulerFileLong')?.addEventListener('change', e => {
   const file = e.target.files[0]; if (!file) return;
@@ -1047,18 +1071,18 @@ document.getElementById('rulerFileLong')?.addEventListener('change', e => {
   document.getElementById('rulerFile').files = dt.files;
   document.getElementById('rulerFile').dispatchEvent(new Event('change'));
 });
-
+ 
 document.getElementById('rulerFileShort')?.addEventListener('change', e => {
   const file = e.target.files[0]; if (!file) return;
   const zone = e.target.previousElementSibling;
   if (zone) { zone.classList.add('loaded'); zone.querySelector('.uz-sub').textContent = file.name; }
   alert2('setupAlert', '✓ Short side photo loaded. Long side measurement will be combined automatically.', 'info');
 });
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // RULER PHOTO CALIBRATION
 // ════════════════════════════════════════════════════════════════════
-
+ 
 const RULER_HINTS = [
   '📷 Upload a photo of your ticket with a ruler alongside it.',
   '→ Click on ruler mark #1 (e.g. the 0" mark)',
@@ -1068,14 +1092,14 @@ const RULER_HINTS = [
   '→ Click the BOTTOM-RIGHT corner of the ticket',
   '✓ Dimensions measured! Review and save in the fields above.',
 ];
-
+ 
 function updateRulerHint() {
   const el = document.getElementById('rulerHint');
   if (el) el.textContent = RULER_HINTS[S.rulerState] || '';
   const distRow = document.getElementById('rulerDistRow');
   if (distRow) distRow.style.display = S.rulerState === 3 ? 'block' : 'none';
 }
-
+ 
 function drawRulerCanvas() {
   const img = S.rulerImg; if (!img) return;
   const wrap = document.getElementById('rulerCanvasWrap');
@@ -1087,7 +1111,7 @@ function drawRulerCanvas() {
   canvas.height = img.naturalHeight * scale;
   const ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
+ 
   const drawPt = (px, py, label, color) => {
     const cx = px * scale, cy = py * scale;
     ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI*2);
@@ -1095,7 +1119,7 @@ function drawRulerCanvas() {
     ctx.fillStyle = '#000'; ctx.font = 'bold 11px sans-serif';
     ctx.fillText(label, cx + 9, cy - 5);
   };
-
+ 
   if (S.rulerPts[0]) drawPt(S.rulerPts[0].x, S.rulerPts[0].y, 'P1', '#f5c842');
   if (S.rulerPts[1]) drawPt(S.rulerPts[1].x, S.rulerPts[1].y, 'P2', '#f5c842');
   if (S.rulerCorners[0]) drawPt(S.rulerCorners[0].x, S.rulerCorners[0].y, 'TL', '#3dd68c');
@@ -1114,7 +1138,7 @@ function drawRulerCanvas() {
     ctx.stroke(); ctx.setLineDash([]);
   }
 }
-
+ 
 document.getElementById('rulerCanvas').addEventListener('click', e => {
   if (S.rulerState < 1 || S.rulerState === 3 || S.rulerState === 6) return;
   const canvas = e.currentTarget;
@@ -1123,16 +1147,16 @@ document.getElementById('rulerCanvas').addEventListener('click', e => {
   const sy = S.rulerImg.naturalHeight / canvas.height;
   const nx = (e.clientX - rect.left) * sx;
   const ny = (e.clientY - rect.top)  * sy;
-
+ 
   if (S.rulerState === 1) { S.rulerPts = [{x:nx,y:ny}]; S.rulerState = 2; }
   else if (S.rulerState === 2) { S.rulerPts.push({x:nx,y:ny}); S.rulerState = 3; }
   else if (S.rulerState === 4) { S.rulerCorners = [{x:nx,y:ny}]; S.rulerState = 5; }
   else if (S.rulerState === 5) { S.rulerCorners.push({x:nx,y:ny}); computeRulerDimensions(); return; }
-
+ 
   drawRulerCanvas();
   updateRulerHint();
 });
-
+ 
 function confirmRulerDist() {
   const d = parseFloat(document.getElementById('rulerDist')?.value || 0);
   if (d <= 0) { alert('Enter a positive distance.'); return; }
@@ -1141,7 +1165,7 @@ function confirmRulerDist() {
   drawRulerCanvas();
   updateRulerHint();
 }
-
+ 
 function computeRulerDimensions() {
   const p1 = S.rulerPts[0], p2 = S.rulerPts[1];
   S.rulerPPI = Math.hypot(p2.x-p1.x, p2.y-p1.y) / S.rulerKnownDist;
@@ -1161,17 +1185,17 @@ function computeRulerDimensions() {
     res.innerHTML = `<div class="alert alert-success">✓ Measured: <b>${w}"</b> wide × <b>${h}"</b> tall &nbsp;·&nbsp; Scale: ${S.rulerPPI.toFixed(1)} px/in<br>Values auto-filled above. Click <b>Save Dimensions</b> to confirm.</div>`;
   }
 }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // TEST PATTERN
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function updateTestInfo() {
   const g = G(); if (!g) return;
   const total = g.panels * (g.numbers.max - g.numbers.min + 1);
   const el = document.getElementById('testInfo');
   if (el) el.innerHTML = `Game: <b>${g.name}</b> &nbsp;·&nbsp; ${g.panels} panels × ${g.numbers.max - g.numbers.min + 1} positions = <b>${total} test marks</b> &nbsp;·&nbsp; Ticket: ${g.ticket.width}" × ${g.ticket.height}"`;
-
+ 
   const gp = document.getElementById('gridPreview');
   if (gp) {
     let html = `<p style="font-size:10px;color:var(--muted);margin-bottom:8px">Number layout: ${g.grid.cols} cols × ${g.grid.rows} rows</p><table class="grid-tbl">`;
@@ -1187,15 +1211,15 @@ function updateTestInfo() {
     gp.innerHTML = html;
   }
 }
-
+ 
 function doPrintTest() {
   const g = G();
   if (!g) { alert('Select a game first.'); return; }
-
+ 
   const positions = allPositions(g);
   const leftIn = (PAGE_W - g.ticket.width) / 2;
   const sz = g.cal.markSize;
-
+ 
   let marks = '';
   positions.forEach(p => {
     const xIn = leftIn + p.x - sz/2;
@@ -1203,7 +1227,7 @@ function doPrintTest() {
     marks += `<div class="tm" style="left:${xIn}in;top:${yIn}in;width:${sz}in;height:${sz}in;font-size:${sz*.52}in">${p.n}</div>`;
   });
   marks += `<div class="tb" style="left:${leftIn}in;top:0;width:${g.ticket.width}in;height:${g.ticket.height}in"></div>`;
-
+ 
   const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
 <style>
 @page{size:letter portrait;margin:0}
@@ -1216,30 +1240,30 @@ body{background:#fff}
 </style></head><body><div id="f">${marks}</div>
 <script>window.onload=()=>setTimeout(()=>{document.title='TEST — ${g.name} — PilotLotto';window.print();},400)<\/script>
 </body></html>`;
-
+ 
   const w = window.open('', '_blank', 'width=900,height=700');
   if (!w) { alert('Allow pop-ups to print.'); return; }
   w.document.write(html); w.document.close();
 }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // AUTO-CALIBRATION
 // ════════════════════════════════════════════════════════════════════
-
+ 
 async function runAutoCal(useDiff) {
   const g = G();
   if (!g) return;
   if (!S.testScanURL) { alert2('calAlert', 'Upload the test-printed ticket scan first.', 'warn'); return; }
   if (useDiff && !S.blankImg) { alert2('calAlert', 'For diff mode, also upload the blank ticket scan.', 'warn'); return; }
-
+ 
   alert2('calAlert', '🔍 Analyzing scan — please wait…', 'info');
-
+ 
   let sourceURL = S.testScanURL;
   if (useDiff && S.blankImg) sourceURL = await makeDiff(S.blankImg.src, S.testScanURL);
-
+ 
   const result = await detectMarks(g, sourceURL);
   if (result.error) { alert2('calAlert', '⚠ ' + result.error, 'error'); return; }
-
+ 
   g.cal.gridX += result.dx;
   g.cal.gridY += result.dy;
   g.calibrated = true;
@@ -1247,12 +1271,12 @@ async function runAutoCal(useDiff) {
   fillCalInputs();
   renderCalCanvas();
   renderGameList();
-
+ 
   document.getElementById('calResult').innerHTML =
     `✓ Detected <b>${result.count}</b> marks &nbsp;|&nbsp; Correction: Δx=${result.dx.toFixed(4)}" Δy=${result.dy.toFixed(4)}"`;
   alert2('calAlert', `✓ Auto-calibration applied. Review the preview and fine-tune manually if needed.`, 'success');
 }
-
+ 
 async function makeDiff(blankURL, testURL) {
   const [bi, ti] = await Promise.all([loadImg(blankURL), loadImg(testURL)]);
   const W = Math.min(bi.naturalWidth, ti.naturalWidth);
@@ -1276,7 +1300,7 @@ async function makeDiff(blankURL, testURL) {
   ctx.putImageData(diff, 0, 0);
   return canvas.toDataURL();
 }
-
+ 
 async function detectMarks(game, url) {
   const img = await loadImg(url);
   const W = img.naturalWidth, H = img.naturalHeight;
@@ -1285,23 +1309,23 @@ async function detectMarks(game, url) {
   const ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0);
   const { data } = ctx.getImageData(0, 0, W, H);
-
+ 
   const ppiX = W / game.ticket.width;
   const ppiY = H / game.ticket.height;
   const thresh = parseInt(document.getElementById('calThresh')?.value || 110);
   const srPx = Math.ceil(Math.max(game.cal.cellW, game.cal.cellH) * Math.max(ppiX, ppiY) * 0.75);
-
+ 
   const deltas = [];
   for (let pi = 0; pi < game.panels; pi++) {
     for (let n = game.numbers.min; n <= game.numbers.max; n++) {
       const pos = numPos(game, pi, n);
       const eCx = pos.x * ppiX, eCy = pos.y * ppiY;
-
+ 
       const x0 = Math.max(0, Math.floor(eCx - srPx));
       const x1 = Math.min(W-1, Math.ceil(eCx + srPx));
       const y0 = Math.max(0, Math.floor(eCy - srPx));
       const y1 = Math.min(H-1, Math.ceil(eCy + srPx));
-
+ 
       let sx = 0, sy = 0, cnt = 0;
       for (let py = y0; py <= y1; py++) {
         for (let px = x0; px <= x1; px++) {
@@ -1315,16 +1339,16 @@ async function detectMarks(game, url) {
       }
     }
   }
-
+ 
   if (deltas.length < 4)
     return { error: `Only ${deltas.length} marks detected. Try raising the threshold or verify the test scan.` };
-
+ 
   const dxs = [...deltas].sort((a,b) => a.dx-b.dx);
   const dys = [...deltas].sort((a,b) => a.dy-b.dy);
   const mid = Math.floor(deltas.length / 2);
   return { dx: dxs[mid].dx, dy: dys[mid].dy, count: deltas.length };
 }
-
+ 
 function loadImg(url) {
   return new Promise((res, rej) => {
     const img = new Image();
@@ -1333,16 +1357,16 @@ function loadImg(url) {
     img.src = url;
   });
 }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // CALIBRATION CANVAS
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function renderCalCanvas() {
   const g = G();
   const canvas = document.getElementById('calCanvas');
   if (!canvas || !g) return;
-
+ 
   const wrap = document.getElementById('calWrap');
   const maxW = wrap.clientWidth || 500;
   const maxH = Math.min(window.innerHeight * 0.55, 600);
@@ -1350,13 +1374,13 @@ function renderCalCanvas() {
   let cW, cH;
   if (maxW / maxH > tickAR) { cH = maxH; cW = cH * tickAR; }
   else                       { cW = maxW; cH = cW / tickAR; }
-
+ 
   canvas.width  = Math.round(cW);
   canvas.height = Math.round(cH);
   const ctx = canvas.getContext('2d');
   const ppiX = cW / g.ticket.width;
   const ppiY = cH / g.ticket.height;
-
+ 
   if (S.blankImg) {
     ctx.drawImage(S.blankImg, 0, 0, cW, cH);
   } else {
@@ -1368,10 +1392,10 @@ function renderCalCanvas() {
     ctx.strokeStyle = 'rgba(245,200,66,.3)'; ctx.lineWidth = 1;
     ctx.strokeRect(0.5, 0.5, cW-1, cH-1);
   }
-
+ 
   const pickedSet = new Set(S.picks.flat());
   const mR = g.cal.markSize * ppiX / 2;
-
+ 
   allPositions(g).forEach(p => {
     const cx = p.x * ppiX, cy = p.y * ppiY;
     const sel = pickedSet.has(p.n);
@@ -1382,7 +1406,7 @@ function renderCalCanvas() {
     ctx.lineWidth   = sel ? 1.5 : 0.7;
     ctx.fill(); ctx.stroke();
   });
-
+ 
   ctx.fillStyle = 'rgba(245,200,66,.4)';
   ctx.font = `${Math.max(8, cH * 0.014)}px monospace`;
   g.panelLabels.forEach((lbl, pi) => {
@@ -1390,7 +1414,7 @@ function renderCalCanvas() {
     ctx.fillText(lbl, 3, y + 4);
   });
 }
-
+ 
 function fillCalInputs() {
   const g = G(); if (!g) return;
   const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = typeof v === 'number' ? v.toFixed(4) : v; };
@@ -1405,24 +1429,24 @@ function fillCalInputs() {
   if (vo) { vo.value = g.cal.vOff||0; document.getElementById('calVOffVal').textContent = (g.cal.vOff||0).toFixed(2)+'"'; }
   if (ho) { ho.value = g.cal.hOff||0; document.getElementById('calHOffVal').textContent = (g.cal.hOff||0).toFixed(2)+'"'; }
 }
-
+ 
 function updateVOff(v) { const g=G(); if(g){g.cal.vOff=parseFloat(v);save();renderCalCanvas();} document.getElementById('calVOffVal').textContent=parseFloat(v).toFixed(2)+'"'; }
 function updateHOff(v) { const g=G(); if(g){g.cal.hOff=parseFloat(v);save();renderCalCanvas();} document.getElementById('calHOffVal').textContent=parseFloat(v).toFixed(2)+'"'; }
-
+ 
 function markCalibrated() {
   const g = G(); if (!g) return;
   g.calibrated = true;
   save(); renderGameList();
   alert2('calAlert', '✓ Marked as calibrated. You can now print numbers.', 'success');
 }
-
+ 
 function resetCal() {
   const g = G(); if (!g) return;
   Object.assign(g.cal, DEFAULT_GAME.cal);
   g.calibrated = false;
   save(); fillCalInputs(); renderCalCanvas(); renderGameList();
 }
-
+ 
 document.querySelectorAll('.calInput').forEach(el => {
   el.addEventListener('input', () => {
     const g = G(); if (!g) return;
@@ -1436,36 +1460,36 @@ document.querySelectorAll('.calInput').forEach(el => {
     save(); renderCalCanvas();
   });
 });
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // PRINT NUMBERS
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function doPrintNumbers() {
   const g = G();
   if (!g) { alert('Select a game.'); return; }
   if (!S.picks.length) { alert('No numbers loaded.'); return; }
-
+ 
   // Tier limit enforcement
   const panelsAllowed = getTierLimit() * g.panels;
   const picksToUse = S.picks.slice(0, panelsAllowed);
-
+ 
   if (S.picks.length > panelsAllowed) {
     if (!confirm(`Free tier limit: ${getTierLimit()} tickets (${panelsAllowed} panels).\nOnly the first ${panelsAllowed} panels will be printed.\n\nUpgrade at pilotlotto.com to print more.\n\nContinue with ${panelsAllowed} panels?`)) return;
   }
-
+ 
   const style   = document.getElementById('markStyle')?.value || 'filled';
   const opacity = (parseInt(document.getElementById('markOpacity')?.value || 100)) / 100;
   const leftIn  = (PAGE_W - g.ticket.width) / 2;
   const sz      = g.cal.markSize;
-
+ 
   const styleCSS = {
     filled:  `background:rgba(0,0,0,${opacity});border-radius:50%;`,
     number:  `display:flex;align-items:center;justify-content:center;font-family:'Arial Black',Arial,sans-serif;font-weight:900;color:rgba(0,0,0,${opacity});`,
     circnum: `background:rgba(0,0,0,${opacity});border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Arial Black',Arial,sans-serif;font-weight:900;color:rgba(255,255,255,${opacity});`,
     outline: `border:${sz*0.08}in solid rgba(0,0,0,${opacity});border-radius:50%;background:transparent;`,
   };
-
+ 
   let marks = '';
   picksToUse.forEach((row, pi) => {
     if (pi >= g.panels) return;
@@ -1478,7 +1502,7 @@ function doPrintNumbers() {
       marks += `<div style="position:absolute;box-sizing:border-box;left:${xIn}in;top:${yIn}in;width:${sz}in;height:${sz}in;${styleCSS[style]}${fsSuffix}">${style==='number'||style==='circnum' ? num : ''}</div>`;
     });
   });
-
+ 
   const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
 <style>
 @page{size:letter portrait;margin:0}
@@ -1488,16 +1512,16 @@ body{background:#fff}
 </style></head><body><div id="f">${marks}</div>
 <script>window.onload=()=>setTimeout(()=>{document.title='${g.name} — PilotLotto';window.print();},400)<\/script>
 </body></html>`;
-
+ 
   const w = window.open('', '_blank', 'width=900,height=700');
   if (!w) { alert('Allow pop-ups to print.'); return; }
   w.document.write(html); w.document.close();
 }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // NUMBER ENTRY
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function applyPicks(rows) {
   S.picks = rows;
   renderNumTable();
@@ -1505,7 +1529,7 @@ function applyPicks(rows) {
   updateCalWarning();
   updateTicketCounter();
 }
-
+ 
 function renderNumTable() {
   const tbl = document.getElementById('numTable');
   const g = G();
@@ -1524,7 +1548,7 @@ function renderNumTable() {
   h += '</tbody></table>';
   tbl.innerHTML = h;
 }
-
+ 
 function renderManualPanels() {
   const g = G();
   const wrap = document.getElementById('manualPanelsWrap');
@@ -1538,9 +1562,9 @@ function renderManualPanels() {
   }
   wrap.innerHTML = h;
 }
-
+ 
 function addManualPanel() { S.manualPanelCount++; renderManualPanels(); }
-
+ 
 function applyManual() {
   const rows = [];
   for (let i = 0; i < S.manualPanelCount; i++) {
@@ -1552,7 +1576,7 @@ function applyManual() {
   applyPicks(rows);
   alert2('printAlert', `✓ ${rows.length} panel(s) ready to print.`, 'success');
 }
-
+ 
 document.getElementById('csvFile').addEventListener('change', e => {
   const f = e.target.files[0]; if (!f) return;
   const fr = new FileReader();
@@ -1572,17 +1596,17 @@ document.getElementById('csvFile').addEventListener('change', e => {
   };
   fr.readAsText(f);
 });
-
+ 
 function updateCalWarning() {
   const g = G();
   const el = document.getElementById('calWarning');
   if (el) el.style.display = (!g || g.calibrated) ? 'none' : 'block';
 }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // SCAN UPLOADS
 // ════════════════════════════════════════════════════════════════════
-
+ 
 document.getElementById('blankFile').addEventListener('change', e => {
   const f = e.target.files[0]; if (!f) return;
   const fr = new FileReader();
@@ -1596,7 +1620,7 @@ document.getElementById('blankFile').addEventListener('change', e => {
   };
   fr.readAsDataURL(f);
 });
-
+ 
 document.getElementById('testFile').addEventListener('change', e => {
   const f = e.target.files[0]; if (!f) return;
   const fr = new FileReader();
@@ -1608,11 +1632,11 @@ document.getElementById('testFile').addEventListener('change', e => {
   };
   fr.readAsDataURL(f);
 });
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // LOCKED TABS
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function goLockedTab(name, desc, ...tiers) {
   // Show the coming-soon pane for this feature
   const tabMap = {
@@ -1629,11 +1653,11 @@ function goLockedTab(name, desc, ...tiers) {
     if (pane) pane.classList.add('active');
   }
 }
-
+ 
 // ════════════════════════════════════════════════════════════════════
 // RENDER
 // ════════════════════════════════════════════════════════════════════
-
+ 
 function renderGameList() {
   const list = document.getElementById('gameList');
   const games = Object.values(S.games);
@@ -1652,12 +1676,12 @@ function renderGameList() {
     hint.style.display = games.length >= limit && USER_TIER !== 'power' ? 'block' : 'none';
   }
 }
-
+ 
 function updateHeader() {
   const g = G();
   document.getElementById('hdrGame').innerHTML = g ? `Active: <b>${g.name}</b>` : 'No game selected';
 }
-
+ 
 function goTab(tab) {
   S.tab = tab;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
@@ -1667,7 +1691,7 @@ function goTab(tab) {
   if (tab === 'calibrate') { fillCalInputs(); setTimeout(renderCalCanvas, 80); }
   if (tab === 'print')     { renderManualPanels(); renderNumTable(); updateCalWarning(); updateTicketCounter(); }
 }
-
+ 
 function alert2(id, msg, type) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -1675,16 +1699,16 @@ function alert2(id, msg, type) {
   el.innerHTML = msg;
   el.style.display = 'block';
 }
-
+ 
 function renderAll() {
   renderGameList();
   updateHeader();
   updateTierUI();
   goTab(S.tab);
 }
-
+ 
 window.addEventListener('resize', () => { if (S.tab === 'calibrate') renderCalCanvas(); });
-
+ 
 loadStore();
 renderAll();
 </script>
