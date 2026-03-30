@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PilotLotto — Lottery Ticket Printer</title>
+<style>
+/* ── TOKENS ── */
+:root {
+  --bg:      #09090f;
+  --surf:    #111118;
+  --panel:   #16161f;
+  --border:  #1f1f30;
+  --border2: #2a2a40;
+  --text:    #c9ccdf;
+  --muted:   #484868;
+  --gold:    #f5c842;
+  --green:   #3dd68c;
+  --blue:    #5ba4f5;
+  --red:     #f27066;
+  --orange:  #f5913a;
+  --r: 6px;
+  --ui: 'Segoe UI', system-ui, sans-serif;
+  --mono: 'Courier New', monospace;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html,body { height:100%; overflow:hidden; }
+body { font-family:var(--ui); background:var(--bg); color:var(--text); display:flex; flex-direction:column; }
+button { cursor:pointer; font-family:inherit; }
+input,select,textarea { font-family:inherit; }
+code { font-family:var(--mono); background:rgba(255,255,255,0.07); padding:1px 5px; border-radius:3px; font-size:0.9em; }
+
+/* ── HEADER ── */
+.hdr { flex-shrink:0; background:var(--surf); border-bottom:1px solid var(--border); height:48px;
+       display:flex; align-items:center; padding:0 16px; gap:12px; z-index:10; }
+.hdr-logo { display:flex; align-items:center; gap:8px; }
+.hdr-logo-icon { font-size:20px; }
+.hdr-title { font-size:14px; font-weight:800; letter-spacing:.1em; color:var(--gold); text-transform:uppercase; }
+.hdr-version { font-size:9px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
+.hdr-tier { margin-left:8px; font-size:9px; padding:2px 7px; border-radius:3px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+.hdr-tier.free   { background:rgba(91,164,245,.15); color:var(--blue); }
+.hdr-tier.player { background:rgba(245,200,66,.15); color:var(--gold); }
+.hdr-game { margin-left:auto; font-size:11px; color:var(--muted); }
+.hdr-game b { color:var(--green); }
+
+/* ── LAYOUT ── */
+.body { display:flex; flex:1; overflow:hidden; }
+
+/* ── SIDEBAR ── */
+.sidebar { width:190px; flex-shrink:0; background:var(--surf); border-right:1px solid var(--border); display:flex; flex-direction:column; overflow:hidden; }
+.sb-hdr { padding:10px 12px; font-size:9px; text-transform:uppercase; letter-spacing:.14em; color:var(--muted); border-bottom:1px solid var(--border); flex-shrink:0; }
+.sb-list { flex:1; overflow-y:auto; padding:5px; }
+.sb-list::-webkit-scrollbar { width:3px; } .sb-list::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+.game-item { padding:8px 10px; border-radius:var(--r); cursor:pointer; border:1px solid transparent; transition:all .15s; margin-bottom:3px; }
+.game-item:hover { background:var(--panel); }
+.game-item.active { background:var(--panel); border-color:rgba(245,200,66,.3); }
+.game-item .gi-name { font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.game-item .gi-sub { font-size:9px; color:var(--muted); margin-top:2px; }
+.game-item .gi-cal { display:inline-block; font-size:8px; margin-top:4px; padding:1px 5px; border-radius:3px; letter-spacing:.05em; }
+.gi-cal.ok  { background:rgba(61,214,140,.12); color:var(--green); }
+.gi-cal.bad { background:rgba(245,200,66,.1);  color:var(--gold); }
+.sb-foot { padding:8px; border-top:1px solid var(--border); flex-shrink:0; }
+
+/* ── WORKSPACE ── */
+.workspace { flex:1; display:flex; flex-direction:column; overflow:hidden; min-width:0; }
+
+/* ── TABS ── */
+.tabs { flex-shrink:0; display:flex; background:var(--surf); border-bottom:1px solid var(--border); padding:0 16px; overflow-x:auto; }
+.tab-btn { padding:11px 15px; font-size:11px; font-weight:500; color:var(--muted); background:transparent; border:none; border-bottom:2px solid transparent; transition:all .15s; letter-spacing:.03em; white-space:nowrap; }
+.tab-btn:hover { color:var(--text); }
+.tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); }
+.tab-btn.locked { color:var(--muted); cursor:not-allowed; opacity:.6; }
+.tab-btn.locked:hover { color:var(--muted); }
+.tab-lock-icon { font-size:9px; margin-left:4px; }
+
+/* ── PANES ── */
+.panes { flex:1; overflow:hidden; position:relative; }
+.pane { position:absolute; inset:0; overflow-y:auto; padding:16px; display:none; }
+.pane.active { display:block; }
+.pane::-webkit-scrollbar { width:5px; } .pane::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
+
+/* ── CARDS ── */
+.card { background:var(--panel); border:1px solid var(--border); border-radius:var(--r); padding:14px; margin-bottom:12px; }
+.card-sm { background:var(--bg); border:1px solid var(--border); border-radius:var(--r); padding:10px; margin-bottom:10px; }
+.card-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.13em; color:var(--gold); margin-bottom:11px; display:flex; align-items:center; gap:7px; }
+.badge { font-size:8px; padding:1px 5px; border-radius:3px; font-weight:700; letter-spacing:.05em; }
+.badge-blue { background:rgba(91,164,245,.2); color:var(--blue); }
+.badge-green { background:rgba(61,214,140,.2); color:var(--green); }
+
+/* ── FORMS ── */
+.field { margin-bottom:9px; } .field:last-child { margin-bottom:0; }
+.field label { display:block; font-size:9px; text-transform:uppercase; letter-spacing:.09em; color:var(--muted); margin-bottom:3px; }
+.field input,.field select { width:100%; background:var(--bg); border:1px solid var(--border2); color:var(--text); padding:6px 9px; font-size:12px; border-radius:4px; outline:none; transition:border-color .15s; }
+.field input:focus,.field select:focus { border-color:var(--blue); }
+.field input[type=number] { -moz-appearance:textfield; } .field input[type=number]::-webkit-outer-spin-button,.field input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; }
+.field input[type=range] { -webkit-appearance:slider-horizontal; accent-color:var(--gold); }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; }
+
+/* ── BUTTONS ── */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:5px; padding:7px 14px; border-radius:4px; font-size:11px; font-weight:600; letter-spacing:.04em; border:1px solid transparent; transition:all .15s; white-space:nowrap; }
+.btn:active { transform:scale(.97); } .btn:disabled { opacity:.35; cursor:not-allowed; }
+.btn-gold   { background:var(--gold);   color:#000; }
+.btn-green  { background:var(--green);  color:#000; }
+.btn-blue   { background:var(--blue);   color:#000; }
+.btn-red    { background:var(--red);    color:#000; }
+.btn-ghost  { background:transparent; color:var(--muted); border-color:var(--border2); }
+.btn-ghost:hover { color:var(--text); border-color:var(--border2); }
+.btn-full { width:100%; }
+.btn-row { display:flex; gap:7px; flex-wrap:wrap; margin-top:10px; }
+
+/* ── ALERTS ── */
+.alert { padding:8px 11px; border-radius:var(--r); font-size:11px; line-height:1.6; border:1px solid; margin-bottom:10px; }
+.alert-info    { background:rgba(91,164,245,.08); border-color:rgba(91,164,245,.25); color:var(--blue); }
+.alert-success { background:rgba(61,214,140,.08); border-color:rgba(61,214,140,.25); color:var(--green); }
+.alert-warn    { background:rgba(245,200,66,.08); border-color:rgba(245,200,66,.25); color:var(--gold); }
+.alert-error   { background:rgba(242,112,102,.08); border-color:rgba(242,112,102,.25); color:var(--red); }
+
+/* ── UPLOAD ZONES ── */
+.upload-zone { border:1px dashed var(--border2); border-radius:var(--r); padding:16px 12px; text-align:center; cursor:pointer; font-size:11px; color:var(--muted); transition:all .2s; user-select:none; }
+.upload-zone:hover { border-color:var(--gold); color:var(--gold); }
+.upload-zone.loaded { border-color:var(--green); color:var(--green); border-style:solid; }
+.upload-zone .uz-icon { font-size:22px; margin-bottom:4px; }
+.upload-zone .uz-sub { font-size:9px; margin-top:3px; opacity:.7; }
+input[type=file] { display:none; }
+
+/* ── CANVAS WRAP ── */
+.canvas-wrap { position:relative; background:#0a0a0a; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.canvas-wrap canvas { display:block; max-width:100%; }
+
+/* ── NUM TABLE ── */
+.num-tbl { width:100%; border-collapse:collapse; font-size:11px; font-family:var(--mono); }
+.num-tbl th { font-size:9px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:4px 6px; border-bottom:1px solid var(--border); text-align:center; }
+.num-tbl td { padding:4px 7px; border-bottom:1px solid var(--border); text-align:center; }
+.num-tbl .td-panel { color:var(--gold); font-weight:700; }
+.num-tbl .td-picked { color:var(--green); font-weight:700; }
+
+/* ── GRID PREVIEW ── */
+.grid-tbl { border-collapse:collapse; font-size:10px; font-family:var(--mono); }
+.grid-tbl td { width:22px; height:18px; text-align:center; border:1px solid var(--border); color:var(--muted); }
+.grid-tbl td.filled { background:rgba(245,200,66,.07); color:var(--text); }
+
+/* ── RULER WIZARD ── */
+.wizard-step { font-size:11px; padding:8px 12px; background:rgba(245,200,66,.07); border-left:2px solid var(--gold); border-radius:0 var(--r) var(--r) 0; margin-bottom:10px; line-height:1.7; }
+.ruler-canvas-wrap { position:relative; cursor:crosshair; }
+.ruler-canvas-wrap canvas { display:block; max-width:100%; max-height:45vh; }
+
+/* ── CAL DUAL LAYOUT ── */
+.cal-layout { display:grid; grid-template-columns:1fr 320px; gap:12px; min-height:0; }
+.print-layout { display:grid; grid-template-columns:1fr 300px; gap:12px; }
+
+/* ── MODAL ── */
+.modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.65); display:flex; align-items:center; justify-content:center; z-index:200; backdrop-filter:blur(3px); }
+.modal { background:var(--panel); border:1px solid var(--border2); border-radius:8px; padding:20px; width:500px; max-width:calc(100vw - 30px); max-height:calc(100vh - 60px); overflow-y:auto; }
+.modal-title { font-size:13px; font-weight:700; color:var(--gold); margin-bottom:14px; }
+.modal-foot { display:flex; justify-content:flex-end; gap:8px; margin-top:14px; }
+
+/* ── COMING SOON PANE ── */
+.coming-soon-pane { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; text-align:center; padding:40px; }
+.coming-soon-icon { font-size:48px; margin-bottom:16px; }
+.coming-soon-title { font-size:18px; font-weight:800; color:var(--gold); margin-bottom:8px; }
+.coming-soon-sub { font-size:13px; color:var(--muted); max-width:380px; line-height:1.7; margin-bottom:24px; }
+.coming-soon-tiers { background:var(--panel); border:1px solid var(--border); border-radius:var(--r); padding:14px 20px; margin-bottom:20px; text-align:left; width:100%; max-width:380px; }
+.coming-soon-tiers h4 { font-size:9px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); margin-bottom:10px; }
+.tier-row { display:flex; align-items:center; gap:10px; font-size:11px; padding:4px 0; }
+.tier-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.tier-dot.gold   { background:var(--gold); }
+.tier-dot.blue   { background:var(--blue); }
+.tier-dot.green  { background:var(--green); }
+.tier-dot.orange { background:var(--orange); }
+
+/* ── TICKET COUNTER ── */
+.ticket-counter { background:rgba(245,200,66,.06); border:1px solid rgba(245,200,66,.2); border-radius:var(--r); padding:8px 12px; font-size:11px; display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.tc-label { color:var(--muted); }
+.tc-val { color:var(--gold); font-weight:700; font-family:var(--mono); }
+.tc-limit { color:var(--muted); font-size:10px; }
+
+/* ── DIVIDER ── */
+hr { border:none; border-top:1px solid var(--border); margin:10px 0; }
+
+/* ── RANGE LABEL ── */
+.range-row { display:flex; align-items:center; gap:8px; }
+.range-val { font-size:11px; font-family:var(--mono); color:var(--gold); width:40px; text-align:right; flex-shrink:0; }
+
+@media print {
+  * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  body,html { height:auto; overflow:visible; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-logo">
+    <span class="hdr-logo-icon">✈</span>
+    <span class="hdr-title">PilotLotto</span>
+    <span class="hdr-version">v1.0</span>
+    <span class="hdr-tier free" id="hdrTier">Free</span>
+  </div>
+  <span class="hdr-game" id="hdrGame">No game selected</span>
+</header>
+
+<div class="body">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-hdr">Games Library</div>
+  <div class="sb-list" id="gameList"></div>
+  <div class="sb-foot">
+    <button class="btn btn-ghost btn-full" onclick="showAddModal()">＋ Add Game</button>
+  </div>
+</div>
+
+<!-- WORKSPACE -->
+<div class="workspace">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="setup"     onclick="goTab('setup')">① Setup</button>
+    <button class="tab-btn"        data-tab="test"      onclick="goTab('test')">② Test Print</button>
+    <button class="tab-btn"        data-tab="calibrate" onclick="goTab('calibrate')">③ Calibrate</button>
+    <button class="tab-btn"        data-tab="print"     onclick="goTab('print')">④ Print Numbers</button>
+    <button class="tab-btn locked" data-tab="wheel"     onclick="goLockedTab('Wheel Builder','Build all combinations of your chosen numbers — the most powerful way to cover more winning possibilities.','Player','Serious','Power')">🔒 Wheel Builder<span class="tab-lock-icon"></span></button>
+    <button class="tab-btn locked" data-tab="analysis"  onclick="goLockedTab('Number Analysis','Hot/cold number tracking, frequency charts, and draw history analysis for your games.','Serious','Power')">🔒 Analysis<span class="tab-lock-icon"></span></button>
+    <button class="tab-btn locked" data-tab="history"   onclick="goLockedTab('Draw History','Import draw results directly from your state lottery site. Unlock patterns and trends.','Serious','Power')">🔒 Draw History<span class="tab-lock-icon"></span></button>
+  </div>
+
+  <div class="panes">
+
+    <!-- ══════════════════ SETUP ══════════════════ -->
+    <div class="pane active" id="pane-setup">
+      <div id="setupAlert" class="alert" style="display:none"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+        <!-- Game Config -->
+        <div>
+          <div class="card">
+            <div class="card-title">🎮 Game Configuration</div>
+            <div class="grid-2">
+              <div class="field"><label>Game Name</label><input id="sName" type="text" placeholder="Florida Fantasy 5"></div>
+              <div class="field"><label>State / Lottery</label><input id="sState" type="text" placeholder="Florida"></div>
+            </div>
+            <div class="grid-4">
+              <div class="field"><label>Pick Count</label><input id="sCount" type="number" min="1" max="10"></div>
+              <div class="field"><label>Min Number</label><input id="sMin" type="number" min="1" max="99"></div>
+              <div class="field"><label>Max Number</label><input id="sMax" type="number" min="2" max="99"></div>
+              <div class="field"><label>Panels/Ticket</label><input id="sPanels" type="number" min="1" max="10"></div>
+            </div>
+            <div class="grid-2">
+              <div class="field"><label>Grid Columns</label><input id="sGCols" type="number" min="1" max="20"></div>
+              <div class="field"><label>Grid Rows</label><input id="sGRows" type="number" min="1" max="20"></div>
+            </div>
+            <div class="alert alert-info" style="margin-top:8px;margin-bottom:0;font-size:10px">
+              Grid cols × rows must equal or exceed the max number. Fantasy 5: 6×6=36. Panels: Fantasy 5 = 10 (A–J), Powerball = 5 (A–E).
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-gold" onclick="saveSetup()">Save Settings</button>
+              <button class="btn btn-red"  onclick="doDeleteGame()">Delete Game</button>
+            </div>
+          </div>
+
+          <!-- Ticket Dimensions -->
+          <div class="card">
+            <div class="card-title">📏 Ticket Dimensions</div>
+            <div class="alert alert-warn" style="margin-bottom:10px">
+              Measure your blank ticket with a ruler to the nearest <strong>1/16 inch</strong>. The photo method gives higher accuracy.
+            </div>
+            <div class="grid-2">
+              <div class="field"><label>Width (inches)</label><input id="sTW" type="number" min="0.5" max="6" step="0.0625"></div>
+              <div class="field"><label>Height (inches)</label><input id="sTH" type="number" min="1" max="14" step="0.0625"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-gold" onclick="saveSetup()">Save Dimensions</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ruler Photo Method -->
+        <div>
+          <div class="card">
+            <div class="card-title">📷 Photo + Ruler Method <span class="badge badge-blue">Optional but accurate</span></div>
+            <div class="alert alert-info" style="margin-bottom:10px">
+              <strong>How to take the photo:</strong><br>
+              • Place a ruler flat next to your ticket on a well-lit surface<br>
+              • Hold the camera directly overhead — no angle<br>
+              • Fill the frame with ticket + ruler<br>
+              • Both ticket edges and ruler marks must be sharp
+            </div>
+
+            <div class="wizard-step" id="rulerHint">📷 Upload a photo of your ticket with a ruler alongside it.</div>
+
+            <div class="upload-zone" onclick="document.getElementById('rulerFile').click()">
+              <div class="uz-icon">📷</div><div>Upload ruler photo</div>
+              <div class="uz-sub">JPG or PNG from phone or scanner</div>
+            </div>
+            <input type="file" id="rulerFile" accept="image/*">
+
+            <div id="rulerCanvasWrap" class="ruler-canvas-wrap" style="margin-top:10px;display:none">
+              <canvas id="rulerCanvas"></canvas>
+            </div>
+
+            <div id="rulerDistRow" style="display:none;margin-top:8px">
+              <div class="field">
+                <label>Known distance between your two ruler points (inches)</label>
+                <input id="rulerDist" type="number" min="0.1" max="24" step="0.0625" value="6">
+              </div>
+              <div class="btn-row">
+                <button class="btn btn-gold" onclick="confirmRulerDist()">✓ Confirm → Now click ticket corners</button>
+              </div>
+            </div>
+
+            <div id="rulerResult" style="display:none;margin-top:10px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ TEST PRINT ══════════════════ -->
+    <div class="pane" id="pane-test">
+      <div style="max-width:700px;margin:0 auto">
+
+        <div class="card">
+          <div class="card-title">🖨 How the Test Print Works</div>
+          <div class="alert alert-info" style="margin-bottom:12px">
+            The test print places a numbered outline box at <strong>every possible number position</strong> across all panels.
+            After printing on a blank ticket, you can see visually whether the boxes land inside the bubble circles.
+            Feed results into the Calibrate tab for automatic correction.
+          </div>
+          <div class="card-sm">
+            <div class="card-title" style="font-size:9px;margin-bottom:8px">Required Printer Settings</div>
+            <table style="font-size:11px;width:100%;border-collapse:collapse">
+              <tr><td style="padding:3px 8px;color:var(--muted)">Paper size</td><td style="padding:3px 8px"><strong>Letter (8.5" × 11")</strong></td></tr>
+              <tr><td style="padding:3px 8px;color:var(--muted)">Orientation</td><td style="padding:3px 8px"><strong>Portrait</strong></td></tr>
+              <tr><td style="padding:3px 8px;color:var(--muted)">Scale</td><td style="padding:3px 8px"><strong>100% Actual Size — NO fit-to-page</strong></td></tr>
+              <tr><td style="padding:3px 8px;color:var(--muted)">Margins</td><td style="padding:3px 8px"><strong>None / Custom = 0"</strong></td></tr>
+              <tr><td style="padding:3px 8px;color:var(--muted)">Feed</td><td style="padding:3px 8px"><strong>Center slot, ticket face-up</strong></td></tr>
+            </table>
+          </div>
+          <div class="alert alert-warn">
+            <strong>First run tip:</strong> Print on plain paper first. Hold it over a blank ticket against a bright light to check alignment before committing a real ticket.
+          </div>
+          <div id="testInfo" style="font-size:11px;color:var(--muted);margin-top:10px;margin-bottom:12px"></div>
+          <div class="btn-row">
+            <button class="btn btn-gold" onclick="doPrintTest()">⎙ Print Test Pattern</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📊 Number Grid Layout</div>
+          <div id="gridPreview" style="font-size:11px;color:var(--muted)">Load a game to see grid.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════ CALIBRATE ══════════════════ -->
+    <div class="pane" id="pane-calibrate">
+      <div id="calAlert" class="alert" style="display:none"></div>
+
+      <div class="cal-layout">
+
+        <div>
+          <div class="card" style="margin-bottom:8px">
+            <div class="card-title">👁 Live Alignment Preview</div>
+            <div class="canvas-wrap" id="calWrap">
+              <canvas id="calCanvas"></canvas>
+            </div>
+            <div style="font-size:9px;color:var(--muted);margin-top:5px">
+              🟡 Yellow = every number position &nbsp;|&nbsp; 🟢 Green = selected picks (from Print tab)
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:0">
+            <div class="card-title">📁 Scan Uploads</div>
+            <div class="grid-2">
+              <div>
+                <div class="upload-zone" id="blankZone" onclick="document.getElementById('blankFile').click()">
+                  <div class="uz-icon">📄</div><div>Blank ticket scan</div>
+                  <div class="uz-sub">Background reference</div>
+                </div>
+                <input type="file" id="blankFile" accept="image/*">
+              </div>
+              <div>
+                <div class="upload-zone" id="testZone" onclick="document.getElementById('testFile').click()">
+                  <div class="uz-icon">🖨</div><div>Test-printed scan</div>
+                  <div class="uz-sub">Ticket after test print</div>
+                </div>
+                <input type="file" id="testFile" accept="image/*">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="overflow-y:auto;padding-right:2px">
+
+          <div class="card">
+            <div class="card-title">🤖 Auto-Calibrate <span class="badge badge-green">Recommended</span></div>
+            <div class="field">
+              <label>Dark Pixel Threshold (0=black … 255=white)</label>
+              <div class="range-row">
+                <input type="range" id="calThresh" min="40" max="220" value="110" oninput="document.getElementById('calThreshVal').textContent=this.value" style="flex:1">
+                <span class="range-val" id="calThreshVal">110</span>
+              </div>
+              <div style="font-size:9px;color:var(--muted);margin-top:3px">Lower = only very dark marks. Raise if auto-cal detects too few marks.</div>
+            </div>
+            <div class="btn-row" style="flex-direction:column">
+              <button class="btn btn-green btn-full" onclick="runAutoCal(false)">⚡ Auto-Cal from Test Scan Only</button>
+              <button class="btn btn-blue  btn-full" onclick="runAutoCal(true)">⚡⚡ Auto-Cal with Diff (blank + test, more accurate)</button>
+            </div>
+            <div style="font-size:9px;color:var(--muted);margin-top:6px" id="calResult"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">🎛 Manual Fine-Tune</div>
+            <div class="grid-2">
+              <div class="field"><label>Grid Origin X (in)</label><input class="calInput" id="calGX" type="number" step="0.005"></div>
+              <div class="field"><label>Grid Origin Y (in)</label><input class="calInput" id="calGY" type="number" step="0.005"></div>
+            </div>
+            <div class="grid-2">
+              <div class="field"><label>Cell Width (in)</label><input class="calInput" id="calCW" type="number" step="0.002" min="0.05"></div>
+              <div class="field"><label>Cell Height (in)</label><input class="calInput" id="calCH" type="number" step="0.002" min="0.05"></div>
+            </div>
+            <div class="grid-2">
+              <div class="field"><label>Panel Spacing (in)</label><input class="calInput" id="calPH" type="number" step="0.005" min="0.5"></div>
+              <div class="field"><label>Mark Size (in)</label><input class="calInput" id="calMS" type="number" step="0.003" min="0.04" max="0.5"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-gold" onclick="markCalibrated()">✓ Mark as Calibrated</button>
+              <button class="btn btn-ghost" onclick="resetCal()">↺ Reset Defaults</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📐 Print Offset Correction</div>
+            <div class="field">
+              <label>Vertical Offset (in) — + shifts down, – shifts up</label>
+              <div class="range-row">
+                <input type="range" id="calVOff" min="-0.5" max="0.5" step="0.01" value="0" oninput="updateVOff(this.value)" style="flex:1">
+                <span class="range-val" id="calVOffVal">0.00"</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Horizontal Offset (in)</label>
+              <div class="range-row">
+                <input type="range" id="calHOff" min="-0.5" max="0.5" step="0.01" value="0" oninput="updateHOff(this.value)" style="flex:1">
+                <span class="range-val" id="calHOffVal">0.00"</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ PRINT NUMBERS ══════════════════ -->
+    <div class="pane" id="pane-print">
+      <div id="printAlert" class="alert" style="display:none"></div>
+
+      <div class="print-layout">
+
+        <div>
+          <!-- Ticket counter -->
+          <div class="ticket-counter" id="ticketCounter">
+            <span class="tc-label">Tickets this run</span>
+            <span><span class="tc-val" id="tcCount">0</span> <span class="tc-limit" id="tcLimit">/ 2 (Free tier)</span></span>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📂 Load Numbers — CSV File</div>
+            <div class="alert alert-info" style="margin-bottom:10px">
+              One row per panel, numbers comma-separated.<br>
+              Example: <code>7,14,23,29,36</code>
+            </div>
+            <div class="upload-zone" id="csvZone" onclick="document.getElementById('csvFile').click()">
+              <div class="uz-icon">📂</div><div>Upload numbers CSV</div>
+              <div class="uz-sub">Plain text or .csv</div>
+            </div>
+            <input type="file" id="csvFile" accept=".csv,.txt">
+          </div>
+
+          <div class="card">
+            <div class="card-title">✏ Manual Number Entry</div>
+            <div id="manualPanelsWrap"></div>
+            <div class="btn-row">
+              <button class="btn btn-ghost" onclick="addManualPanel()">＋ Add Panel</button>
+              <button class="btn btn-gold"  onclick="applyManual()">Use These Numbers</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📋 Loaded Numbers</div>
+            <div id="numTable"><div style="font-size:11px;color:var(--muted)">No numbers loaded.</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-title">🖨 Print Settings</div>
+            <div class="field">
+              <label>Mark Style</label>
+              <select id="markStyle">
+                <option value="filled">● Filled Circle (solid black)</option>
+                <option value="number">№ Number Text Only</option>
+                <option value="circnum">● Circle + Number (white on black)</option>
+                <option value="outline">○ Outline Circle Only</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Mark Opacity (%)</label>
+              <div class="range-row">
+                <input type="range" id="markOpacity" min="50" max="100" value="100" oninput="document.getElementById('markOpacityVal').textContent=this.value+'%'" style="flex:1">
+                <span class="range-val" id="markOpacityVal">100%</span>
+              </div>
+            </div>
+            <div class="card-sm">
+              <div class="card-title" style="font-size:9px;margin-bottom:6px">Required Printer Settings</div>
+              <ul style="font-size:11px;line-height:2;margin-left:14px">
+                <li>Paper: <b>Letter · Portrait</b></li>
+                <li>Scale: <b>Actual Size (100%)</b></li>
+                <li>Margins: <b>None / 0"</b></li>
+                <li>Feed: <b>Center slot, face-up</b></li>
+              </ul>
+            </div>
+            <div id="calWarning" class="alert alert-warn" style="display:none">⚠ This game is not yet calibrated. Print on plain paper first.</div>
+            <div id="tierWarning" class="alert alert-warn" style="display:none">
+              ⚠ Free tier limit: <strong>2 tickets (20 entries)</strong> per run.<br>
+              <a href="https://pilotlotto.com" target="_blank" style="color:var(--gold)">Upgrade to print more →</a>
+            </div>
+            <button class="btn btn-gold btn-full" onclick="doPrintNumbers()" style="margin-top:10px;padding:11px;font-size:12px">
+              ⎙ &nbsp;Print Ticket Numbers
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════ WHEEL BUILDER (LOCKED) ══════════════════ -->
+    <div class="pane" id="pane-wheel">
+      <div class="coming-soon-pane">
+        <div class="coming-soon-icon">⚙️</div>
+        <div class="coming-soon-title">Wheel Builder — Coming Soon</div>
+        <div class="coming-soon-sub">Build all combinations of your chosen numbers taken K at a time. The most powerful way to cover more winning possibilities with fewer tickets.</div>
+        <div class="coming-soon-tiers">
+          <h4>Available in these plans</h4>
+          <div class="tier-row"><div class="tier-dot gold"></div><span>Player — Basic wheeling (up to 8 numbers)</span></div>
+          <div class="tier-row"><div class="tier-dot blue"></div><span>Serious — Full wheels + sum range filter</span></div>
+          <div class="tier-row"><div class="tier-dot green"></div><span>Power — All filters + batch printing</span></div>
+        </div>
+        <a href="https://pilotlotto.com" target="_blank" class="btn btn-gold">View Plans →</a>
+      </div>
+    </div>
+
+    <!-- ══════════════════ ANALYSIS (LOCKED) ══════════════════ -->
+    <div class="pane" id="pane-analysis">
+      <div class="coming-soon-pane">
+        <div class="coming-soon-icon">📊</div>
+        <div class="coming-soon-title">Number Analysis — Coming Soon</div>
+        <div class="coming-soon-sub">Hot and cold number tracking, draw frequency charts, positional analysis, and odd/even balance tools for every game in your library.</div>
+        <div class="coming-soon-tiers">
+          <h4>Available in these plans</h4>
+          <div class="tier-row"><div class="tier-dot blue"></div><span>Serious — Last 365 draws, frequency charts</span></div>
+          <div class="tier-row"><div class="tier-dot green"></div><span>Power — Full history, all analysis tools</span></div>
+        </div>
+        <a href="https://pilotlotto.com" target="_blank" class="btn btn-gold">View Plans →</a>
+      </div>
+    </div>
+
+    <!-- ══════════════════ DRAW HISTORY (LOCKED) ══════════════════ -->
+    <div class="pane" id="pane-history">
+      <div class="coming-soon-pane">
+        <div class="coming-soon-icon">📅</div>
+        <div class="coming-soon-title">Draw History — Coming Soon</div>
+        <div class="coming-soon-sub">Import draw results directly from your state lottery site. Guided import for Florida, Powerball, Mega Millions, and more. Unlock patterns, trends, and due numbers.</div>
+        <div class="coming-soon-tiers">
+          <h4>Available in these plans</h4>
+          <div class="tier-row"><div class="tier-dot blue"></div><span>Serious — Last 1 year of draws</span></div>
+          <div class="tier-row"><div class="tier-dot green"></div><span>Power — Full history, all available years</span></div>
+        </div>
+        <a href="https://pilotlotto.com" target="_blank" class="btn btn-gold">View Plans →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ADD GAME MODAL -->
+<div class="modal-bg" id="addModal" style="display:none">
+  <div class="modal">
+    <div class="modal-title">＋ Add New Lottery Game</div>
+    <div class="grid-2">
+      <div class="field"><label>Game Name</label><input id="mName" type="text" placeholder="e.g. Powerball"></div>
+      <div class="field"><label>State / Org</label><input id="mState" type="text" placeholder="e.g. Multi-State"></div>
+    </div>
+    <div class="grid-4">
+      <div class="field"><label>Pick Count</label><input id="mCount" type="number" value="5" min="1" max="10"></div>
+      <div class="field"><label>Min #</label><input id="mMin" type="number" value="1" min="1"></div>
+      <div class="field"><label>Max #</label><input id="mMax" type="number" value="36" min="2"></div>
+      <div class="field"><label>Panels</label><input id="mPanels" type="number" value="10" min="1" max="10"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Bonus Number?</label><select id="mBonus"><option value="no">No bonus</option><option value="yes">Yes (separate pool)</option></select></div>
+      <div class="field"><label>Bonus Max (if yes)</label><input id="mBonusMax" type="number" value="25" min="2"></div>
+    </div>
+    <div class="grid-4">
+      <div class="field"><label>Grid Cols</label><input id="mGCols" type="number" value="6" min="1" max="20"></div>
+      <div class="field"><label>Grid Rows</label><input id="mGRows" type="number" value="6" min="1" max="20"></div>
+      <div class="field"><label>Ticket W (in)</label><input id="mTW" type="number" value="2.25" step="0.0625" min="0.5"></div>
+      <div class="field"><label>Ticket H (in)</label><input id="mTH" type="number" value="7.0" step="0.0625" min="1"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="submitAddGame()">Add Game</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// CONSTANTS
+// ════════════════════════════════════════════════════════════════════
+
+const STORE_KEY = 'pilotLotto_v1';
+const PAGE_W = 8.5, PAGE_H = 11.0;
+
+// TIER CONFIG — update when Supabase auth is wired in
+const TIERS = {
+  free:     { label:'Free',    ticketsPerRun: 2,   color:'blue' },
+  player:   { label:'Player',  ticketsPerRun: 5,   color:'gold' },
+  serious:  { label:'Serious', ticketsPerRun: 15,  color:'green' },
+  power:    { label:'Power',   ticketsPerRun: 999, color:'orange' },
+};
+// Change this to switch active tier (will be set by Supabase auth later)
+let USER_TIER = 'free';
+
+const DEFAULT_GAME = {
+  id: 'fl-fantasy5',
+  name: 'Florida Fantasy 5',
+  state: 'Florida',
+  numbers: { count: 5, min: 1, max: 36 },
+  bonus: null,
+  panels: 10,  // ← CORRECTED: Fantasy 5 has 10 panels (A–J)
+  panelLabels: ['A','B','C','D','E','F','G','H','I','J'],
+  grid: { cols: 6, rows: 6 },
+  ticket: { width: 2.25, height: 14.0 },  // 10-panel ticket is taller
+  cal: {
+    gridX:    0.28,
+    gridY:    0.72,
+    cellW:    0.270,
+    cellH:    0.210,
+    panelH:   1.20,
+    markSize: 0.13,
+    vOff: 0,
+    hOff: 0,
+  },
+  calibrated: false,
+};
+
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+
+const S = {
+  games: {},
+  activeId: null,
+  tab: 'setup',
+  blankImg: null,
+  testScanURL: null,
+  picks: [],
+  manualPanelCount: 1,
+  rulerImg: null,
+  rulerState: 0,
+  rulerPts: [],
+  rulerCorners: [],
+  rulerKnownDist: 0,
+  rulerPPI: 0,
+};
+
+// ════════════════════════════════════════════════════════════════════
+// PERSISTENCE
+// ════════════════════════════════════════════════════════════════════
+
+function loadStore() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) {
+      const d = JSON.parse(raw);
+      S.games = d.games || {};
+      S.activeId = d.activeId || null;
+    }
+  } catch(e) {}
+  if (!Object.keys(S.games).length) {
+    S.games[DEFAULT_GAME.id] = JSON.parse(JSON.stringify(DEFAULT_GAME));
+    S.activeId = DEFAULT_GAME.id;
+  }
+  if (!S.activeId || !S.games[S.activeId]) S.activeId = Object.keys(S.games)[0] || null;
+}
+
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ games: S.games, activeId: S.activeId })); }
+  catch(e) { console.warn('Storage full:', e); }
+}
+
+function G() { return S.activeId ? S.games[S.activeId] : null; }
+
+// ════════════════════════════════════════════════════════════════════
+// TIER SYSTEM
+// ════════════════════════════════════════════════════════════════════
+
+function getTierLimit() { return TIERS[USER_TIER]?.ticketsPerRun || 2; }
+
+function updateTierUI() {
+  const t = TIERS[USER_TIER];
+  const el = document.getElementById('hdrTier');
+  if (el) {
+    el.textContent = t.label;
+    el.className = `hdr-tier ${t.color}`;
+  }
+}
+
+function updateTicketCounter() {
+  const g = G(); if (!g) return;
+  const panelsLoaded = S.picks.length;
+  const ticketsLoaded = g.panels > 0 ? Math.ceil(panelsLoaded / g.panels) : 0;
+  const limit = getTierLimit();
+  document.getElementById('tcCount').textContent = ticketsLoaded;
+  document.getElementById('tcLimit').textContent = `/ ${limit} (${TIERS[USER_TIER].label} tier)`;
+  const warn = document.getElementById('tierWarning');
+  if (warn) warn.style.display = ticketsLoaded > limit ? 'block' : 'none';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// GAME CRUD
+// ════════════════════════════════════════════════════════════════════
+
+function setActive(id) { S.activeId = id; save(); renderAll(); }
+
+function addGame(g) {
+  const id = 'g_' + Date.now();
+  S.games[id] = { ...g, id };
+  S.activeId = id;
+  save(); renderAll();
+}
+
+function doDeleteGame() {
+  if (!S.activeId) return;
+  if (!confirm('Delete "' + (G()?.name || '') + '"?')) return;
+  delete S.games[S.activeId];
+  S.activeId = Object.keys(S.games)[0] || null;
+  save(); renderAll();
+}
+
+function showAddModal() { document.getElementById('addModal').style.display = 'flex'; }
+function closeModal()   { document.getElementById('addModal').style.display = 'none'; }
+
+function submitAddGame() {
+  const v = id => document.getElementById(id)?.value;
+  const n = id => parseFloat(v(id));
+  const i = id => parseInt(v(id), 10);
+  const count = i('mCount') || 5;
+  const panels = i('mPanels') || 10;
+  const hasBonus = v('mBonus') === 'yes';
+  addGame({
+    name: v('mName') || 'New Lottery',
+    state: v('mState') || '',
+    numbers: { count, min: i('mMin')||1, max: i('mMax')||36 },
+    bonus: hasBonus ? { min: 1, max: i('mBonusMax')||25 } : null,
+    panels,
+    panelLabels: Array.from({length: panels}, (_,j) => String.fromCharCode(65+j)),
+    grid: { cols: i('mGCols')||6, rows: i('mGRows')||6 },
+    ticket: { width: n('mTW')||2.25, height: n('mTH')||14.0 },
+    cal: { ...DEFAULT_GAME.cal },
+    calibrated: false,
+  });
+  closeModal();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// GRID POSITION MATH
+// ════════════════════════════════════════════════════════════════════
+
+function numPos(game, panelIdx, number) {
+  const idx = number - game.numbers.min;
+  const col = idx % game.grid.cols;
+  const row = Math.floor(idx / game.grid.cols);
+  return {
+    x: game.cal.gridX + col * game.cal.cellW + (game.cal.hOff || 0),
+    y: game.cal.gridY + panelIdx * game.cal.panelH + row * game.cal.cellH + (game.cal.vOff || 0),
+  };
+}
+
+function allPositions(game) {
+  const out = [];
+  for (let pi = 0; pi < game.panels; pi++)
+    for (let n = game.numbers.min; n <= game.numbers.max; n++)
+      out.push({ pi, n, ...numPos(game, pi, n) });
+  return out;
+}
+
+function printX(game, x) { return (PAGE_W - game.ticket.width) / 2 + x; }
+
+// ════════════════════════════════════════════════════════════════════
+// SETUP TAB
+// ════════════════════════════════════════════════════════════════════
+
+function fillSetupForm() {
+  const g = G(); if (!g) return;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+  set('sName',   g.name);
+  set('sState',  g.state || '');
+  set('sCount',  g.numbers.count);
+  set('sMin',    g.numbers.min);
+  set('sMax',    g.numbers.max);
+  set('sPanels', g.panels);
+  set('sGCols',  g.grid.cols);
+  set('sGRows',  g.grid.rows);
+  set('sTW',     g.ticket.width);
+  set('sTH',     g.ticket.height);
+}
+
+function saveSetup() {
+  const g = G(); if (!g) return;
+  const v = id => document.getElementById(id)?.value;
+  const nf = id => parseFloat(v(id));
+  const ni = id => parseInt(v(id), 10);
+  const panels = ni('sPanels') || 10;
+  g.name          = v('sName') || g.name;
+  g.state         = v('sState') || '';
+  g.numbers.count = ni('sCount');
+  g.numbers.min   = ni('sMin');
+  g.numbers.max   = ni('sMax');
+  g.panels        = panels;
+  g.panelLabels   = Array.from({length: panels}, (_,j) => String.fromCharCode(65+j));
+  g.grid.cols     = ni('sGCols');
+  g.grid.rows     = ni('sGRows');
+  g.ticket.width  = nf('sTW');
+  g.ticket.height = nf('sTH');
+  save();
+  renderGameList();
+  alert2('setupAlert', '✓ Saved.', 'success');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RULER PHOTO CALIBRATION
+// ════════════════════════════════════════════════════════════════════
+
+const RULER_HINTS = [
+  '📷 Upload a photo of your ticket with a ruler alongside it.',
+  '→ Click on ruler mark #1 (e.g. the 0" mark)',
+  '→ Click on ruler mark #2 (e.g. the 6" mark)',
+  '→ Enter the known distance between your two marks below.',
+  '→ Click the TOP-LEFT corner of the ticket',
+  '→ Click the BOTTOM-RIGHT corner of the ticket',
+  '✓ Dimensions measured! Review and save in the fields above.',
+];
+
+function updateRulerHint() {
+  const el = document.getElementById('rulerHint');
+  if (el) el.textContent = RULER_HINTS[S.rulerState] || '';
+  const distRow = document.getElementById('rulerDistRow');
+  if (distRow) distRow.style.display = S.rulerState === 3 ? 'block' : 'none';
+}
+
+document.getElementById('rulerFile').addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const fr = new FileReader();
+  fr.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      S.rulerImg = img;
+      S.rulerState = 1;
+      S.rulerPts = [];
+      S.rulerCorners = [];
+      const wrap = document.getElementById('rulerCanvasWrap');
+      wrap.style.display = 'block';
+      drawRulerCanvas();
+      updateRulerHint();
+    };
+    img.src = ev.target.result;
+  };
+  fr.readAsDataURL(file);
+});
+
+function drawRulerCanvas() {
+  const img = S.rulerImg; if (!img) return;
+  const wrap = document.getElementById('rulerCanvasWrap');
+  const canvas = document.getElementById('rulerCanvas');
+  const maxW = wrap.clientWidth || 600;
+  const maxH = Math.min(window.innerHeight * 0.45, 500);
+  const scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight);
+  canvas.width  = img.naturalWidth  * scale;
+  canvas.height = img.naturalHeight * scale;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  const drawPt = (px, py, label, color) => {
+    const cx = px * scale, cy = py * scale;
+    ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI*2);
+    ctx.fillStyle = color; ctx.fill();
+    ctx.fillStyle = '#000'; ctx.font = 'bold 11px sans-serif';
+    ctx.fillText(label, cx + 9, cy - 5);
+  };
+
+  if (S.rulerPts[0]) drawPt(S.rulerPts[0].x, S.rulerPts[0].y, 'P1', '#f5c842');
+  if (S.rulerPts[1]) drawPt(S.rulerPts[1].x, S.rulerPts[1].y, 'P2', '#f5c842');
+  if (S.rulerCorners[0]) drawPt(S.rulerCorners[0].x, S.rulerCorners[0].y, 'TL', '#3dd68c');
+  if (S.rulerCorners[1]) {
+    drawPt(S.rulerCorners[1].x, S.rulerCorners[1].y, 'BR', '#3dd68c');
+    const tl = S.rulerCorners[0], br = S.rulerCorners[1];
+    ctx.strokeStyle = 'rgba(61,214,140,0.6)'; ctx.lineWidth = 1.5; ctx.setLineDash([4,4]);
+    ctx.strokeRect(tl.x*scale, tl.y*scale, (br.x-tl.x)*scale, (br.y-tl.y)*scale);
+    ctx.setLineDash([]);
+  }
+  if (S.rulerPts[0] && S.rulerPts[1]) {
+    ctx.strokeStyle = 'rgba(245,200,66,.5)'; ctx.lineWidth = 1; ctx.setLineDash([3,3]);
+    ctx.beginPath();
+    ctx.moveTo(S.rulerPts[0].x*scale, S.rulerPts[0].y*scale);
+    ctx.lineTo(S.rulerPts[1].x*scale, S.rulerPts[1].y*scale);
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+}
+
+document.getElementById('rulerCanvas').addEventListener('click', e => {
+  if (S.rulerState < 1 || S.rulerState === 3 || S.rulerState === 6) return;
+  const canvas = e.currentTarget;
+  const rect = canvas.getBoundingClientRect();
+  const sx = S.rulerImg.naturalWidth  / canvas.width;
+  const sy = S.rulerImg.naturalHeight / canvas.height;
+  const nx = (e.clientX - rect.left) * sx;
+  const ny = (e.clientY - rect.top)  * sy;
+
+  if (S.rulerState === 1) { S.rulerPts = [{x:nx,y:ny}]; S.rulerState = 2; }
+  else if (S.rulerState === 2) { S.rulerPts.push({x:nx,y:ny}); S.rulerState = 3; }
+  else if (S.rulerState === 4) { S.rulerCorners = [{x:nx,y:ny}]; S.rulerState = 5; }
+  else if (S.rulerState === 5) { S.rulerCorners.push({x:nx,y:ny}); computeRulerDimensions(); return; }
+
+  drawRulerCanvas();
+  updateRulerHint();
+});
+
+function confirmRulerDist() {
+  const d = parseFloat(document.getElementById('rulerDist')?.value || 0);
+  if (d <= 0) { alert('Enter a positive distance.'); return; }
+  S.rulerKnownDist = d;
+  S.rulerState = 4;
+  drawRulerCanvas();
+  updateRulerHint();
+}
+
+function computeRulerDimensions() {
+  const p1 = S.rulerPts[0], p2 = S.rulerPts[1];
+  S.rulerPPI = Math.hypot(p2.x-p1.x, p2.y-p1.y) / S.rulerKnownDist;
+  const tl = S.rulerCorners[0], br = S.rulerCorners[1];
+  const w = Math.round(Math.abs(br.x-tl.x) / S.rulerPPI * 16) / 16;
+  const h = Math.round(Math.abs(br.y-tl.y) / S.rulerPPI * 16) / 16;
+  const g = G();
+  if (g) { g.ticket.width = w; g.ticket.height = h; save(); }
+  document.getElementById('sTW').value = w;
+  document.getElementById('sTH').value = h;
+  S.rulerState = 6;
+  drawRulerCanvas();
+  updateRulerHint();
+  const res = document.getElementById('rulerResult');
+  if (res) {
+    res.style.display = 'block';
+    res.innerHTML = `<div class="alert alert-success">✓ Measured: <b>${w}"</b> wide × <b>${h}"</b> tall &nbsp;·&nbsp; Scale: ${S.rulerPPI.toFixed(1)} px/in<br>Values auto-filled above. Click <b>Save Dimensions</b> to confirm.</div>`;
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// TEST PATTERN
+// ════════════════════════════════════════════════════════════════════
+
+function updateTestInfo() {
+  const g = G(); if (!g) return;
+  const total = g.panels * (g.numbers.max - g.numbers.min + 1);
+  const el = document.getElementById('testInfo');
+  if (el) el.innerHTML = `Game: <b>${g.name}</b> &nbsp;·&nbsp; ${g.panels} panels × ${g.numbers.max - g.numbers.min + 1} positions = <b>${total} test marks</b> &nbsp;·&nbsp; Ticket: ${g.ticket.width}" × ${g.ticket.height}"`;
+
+  const gp = document.getElementById('gridPreview');
+  if (gp) {
+    let html = `<p style="font-size:10px;color:var(--muted);margin-bottom:8px">Number layout: ${g.grid.cols} cols × ${g.grid.rows} rows</p><table class="grid-tbl">`;
+    for (let r = 0; r < g.grid.rows; r++) {
+      html += '<tr>';
+      for (let c = 0; c < g.grid.cols; c++) {
+        const n = r * g.grid.cols + c + g.numbers.min;
+        html += n <= g.numbers.max ? `<td class="filled">${n}</td>` : '<td></td>';
+      }
+      html += '</tr>';
+    }
+    html += '</table>';
+    gp.innerHTML = html;
+  }
+}
+
+function doPrintTest() {
+  const g = G();
+  if (!g) { alert('Select a game first.'); return; }
+
+  const positions = allPositions(g);
+  const leftIn = (PAGE_W - g.ticket.width) / 2;
+  const sz = g.cal.markSize;
+
+  let marks = '';
+  positions.forEach(p => {
+    const xIn = leftIn + p.x - sz/2;
+    const yIn = p.y - sz/2;
+    marks += `<div class="tm" style="left:${xIn}in;top:${yIn}in;width:${sz}in;height:${sz}in;font-size:${sz*.52}in">${p.n}</div>`;
+  });
+  marks += `<div class="tb" style="left:${leftIn}in;top:0;width:${g.ticket.width}in;height:${g.ticket.height}in"></div>`;
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+@page{size:letter portrait;margin:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#fff}
+#f{position:fixed;top:0;left:0;width:8.5in;height:11in}
+.tm{position:absolute;border:1pt solid #000;background:rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;
+    font-family:'Arial Black',Arial,sans-serif;font-weight:900;color:#000;line-height:1}
+.tb{position:absolute;border:.5pt dashed #bbb;pointer-events:none}
+</style></head><body><div id="f">${marks}</div>
+<script>window.onload=()=>setTimeout(()=>{document.title='TEST — ${g.name} — PilotLotto';window.print();},400)<\/script>
+</body></html>`;
+
+  const w = window.open('', '_blank', 'width=900,height=700');
+  if (!w) { alert('Allow pop-ups to print.'); return; }
+  w.document.write(html); w.document.close();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// AUTO-CALIBRATION
+// ════════════════════════════════════════════════════════════════════
+
+async function runAutoCal(useDiff) {
+  const g = G();
+  if (!g) return;
+  if (!S.testScanURL) { alert2('calAlert', 'Upload the test-printed ticket scan first.', 'warn'); return; }
+  if (useDiff && !S.blankImg) { alert2('calAlert', 'For diff mode, also upload the blank ticket scan.', 'warn'); return; }
+
+  alert2('calAlert', '🔍 Analyzing scan — please wait…', 'info');
+
+  let sourceURL = S.testScanURL;
+  if (useDiff && S.blankImg) sourceURL = await makeDiff(S.blankImg.src, S.testScanURL);
+
+  const result = await detectMarks(g, sourceURL);
+  if (result.error) { alert2('calAlert', '⚠ ' + result.error, 'error'); return; }
+
+  g.cal.gridX += result.dx;
+  g.cal.gridY += result.dy;
+  g.calibrated = true;
+  save();
+  fillCalInputs();
+  renderCalCanvas();
+  renderGameList();
+
+  document.getElementById('calResult').innerHTML =
+    `✓ Detected <b>${result.count}</b> marks &nbsp;|&nbsp; Correction: Δx=${result.dx.toFixed(4)}" Δy=${result.dy.toFixed(4)}"`;
+  alert2('calAlert', `✓ Auto-calibration applied. Review the preview and fine-tune manually if needed.`, 'success');
+}
+
+async function makeDiff(blankURL, testURL) {
+  const [bi, ti] = await Promise.all([loadImg(blankURL), loadImg(testURL)]);
+  const W = Math.min(bi.naturalWidth, ti.naturalWidth);
+  const H = Math.min(bi.naturalHeight, ti.naturalHeight);
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(bi, 0, 0, W, H);
+  const bd = ctx.getImageData(0, 0, W, H).data;
+  ctx.drawImage(ti, 0, 0, W, H);
+  const td = ctx.getImageData(0, 0, W, H).data;
+  const diff = ctx.createImageData(W, H);
+  for (let i = 0; i < bd.length; i += 4) {
+    const bL = 0.299*bd[i] + 0.587*bd[i+1] + 0.114*bd[i+2];
+    const tL = 0.299*td[i] + 0.587*td[i+1] + 0.114*td[i+2];
+    const d  = Math.max(0, bL - tL);
+    const v  = d > 18 ? 0 : 255;
+    diff.data[i] = diff.data[i+1] = diff.data[i+2] = v;
+    diff.data[i+3] = 255;
+  }
+  ctx.putImageData(diff, 0, 0);
+  return canvas.toDataURL();
+}
+
+async function detectMarks(game, url) {
+  const img = await loadImg(url);
+  const W = img.naturalWidth, H = img.naturalHeight;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+  const { data } = ctx.getImageData(0, 0, W, H);
+
+  const ppiX = W / game.ticket.width;
+  const ppiY = H / game.ticket.height;
+  const thresh = parseInt(document.getElementById('calThresh')?.value || 110);
+  const srPx = Math.ceil(Math.max(game.cal.cellW, game.cal.cellH) * Math.max(ppiX, ppiY) * 0.75);
+
+  const deltas = [];
+  for (let pi = 0; pi < game.panels; pi++) {
+    for (let n = game.numbers.min; n <= game.numbers.max; n++) {
+      const pos = numPos(game, pi, n);
+      const eCx = pos.x * ppiX, eCy = pos.y * ppiY;
+
+      const x0 = Math.max(0, Math.floor(eCx - srPx));
+      const x1 = Math.min(W-1, Math.ceil(eCx + srPx));
+      const y0 = Math.max(0, Math.floor(eCy - srPx));
+      const y1 = Math.min(H-1, Math.ceil(eCy + srPx));
+
+      let sx = 0, sy = 0, cnt = 0;
+      for (let py = y0; py <= y1; py++) {
+        for (let px = x0; px <= x1; px++) {
+          const i = (py * W + px) * 4;
+          const luma = 0.299*data[i] + 0.587*data[i+1] + 0.114*data[i+2];
+          if (luma < thresh) { sx += px; sy += py; cnt++; }
+        }
+      }
+      if (cnt >= 6) {
+        deltas.push({ dx: (sx/cnt) / ppiX - pos.x, dy: (sy/cnt) / ppiY - pos.y });
+      }
+    }
+  }
+
+  if (deltas.length < 4)
+    return { error: `Only ${deltas.length} marks detected. Try raising the threshold or verify the test scan.` };
+
+  const dxs = [...deltas].sort((a,b) => a.dx-b.dx);
+  const dys = [...deltas].sort((a,b) => a.dy-b.dy);
+  const mid = Math.floor(deltas.length / 2);
+  return { dx: dxs[mid].dx, dy: dys[mid].dy, count: deltas.length };
+}
+
+function loadImg(url) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => res(img);
+    img.onerror = () => rej(new Error('Image load failed'));
+    img.src = url;
+  });
+}
+
+// ════════════════════════════════════════════════════════════════════
+// CALIBRATION CANVAS
+// ════════════════════════════════════════════════════════════════════
+
+function renderCalCanvas() {
+  const g = G();
+  const canvas = document.getElementById('calCanvas');
+  if (!canvas || !g) return;
+
+  const wrap = document.getElementById('calWrap');
+  const maxW = wrap.clientWidth || 500;
+  const maxH = Math.min(window.innerHeight * 0.55, 600);
+  const tickAR = g.ticket.width / g.ticket.height;
+  let cW, cH;
+  if (maxW / maxH > tickAR) { cH = maxH; cW = cH * tickAR; }
+  else                       { cW = maxW; cH = cW / tickAR; }
+
+  canvas.width  = Math.round(cW);
+  canvas.height = Math.round(cH);
+  const ctx = canvas.getContext('2d');
+  const ppiX = cW / g.ticket.width;
+  const ppiY = cH / g.ticket.height;
+
+  if (S.blankImg) {
+    ctx.drawImage(S.blankImg, 0, 0, cW, cH);
+  } else {
+    ctx.fillStyle = '#141420';
+    ctx.fillRect(0, 0, cW, cH);
+    ctx.strokeStyle = '#222235'; ctx.lineWidth = 0.5;
+    for (let x = 20; x < cW; x += 20) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,cH); ctx.stroke(); }
+    for (let y = 20; y < cH; y += 20) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(cW,y); ctx.stroke(); }
+    ctx.strokeStyle = 'rgba(245,200,66,.3)'; ctx.lineWidth = 1;
+    ctx.strokeRect(0.5, 0.5, cW-1, cH-1);
+  }
+
+  const pickedSet = new Set(S.picks.flat());
+  const mR = g.cal.markSize * ppiX / 2;
+
+  allPositions(g).forEach(p => {
+    const cx = p.x * ppiX, cy = p.y * ppiY;
+    const sel = pickedSet.has(p.n);
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, mR, mR * (ppiY/ppiX), 0, 0, Math.PI*2);
+    ctx.fillStyle   = sel ? 'rgba(61,214,140,.55)' : 'rgba(245,200,66,.12)';
+    ctx.strokeStyle = sel ? '#3dd68c'               : 'rgba(245,200,66,.55)';
+    ctx.lineWidth   = sel ? 1.5 : 0.7;
+    ctx.fill(); ctx.stroke();
+  });
+
+  ctx.fillStyle = 'rgba(245,200,66,.4)';
+  ctx.font = `${Math.max(8, cH * 0.014)}px monospace`;
+  g.panelLabels.forEach((lbl, pi) => {
+    const y = (g.cal.gridY + pi * g.cal.panelH) * ppiY;
+    ctx.fillText(lbl, 3, y + 4);
+  });
+}
+
+function fillCalInputs() {
+  const g = G(); if (!g) return;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = typeof v === 'number' ? v.toFixed(4) : v; };
+  set('calGX', g.cal.gridX);
+  set('calGY', g.cal.gridY);
+  set('calCW', g.cal.cellW);
+  set('calCH', g.cal.cellH);
+  set('calPH', g.cal.panelH);
+  set('calMS', g.cal.markSize);
+  const vo = document.getElementById('calVOff');
+  const ho = document.getElementById('calHOff');
+  if (vo) { vo.value = g.cal.vOff||0; document.getElementById('calVOffVal').textContent = (g.cal.vOff||0).toFixed(2)+'"'; }
+  if (ho) { ho.value = g.cal.hOff||0; document.getElementById('calHOffVal').textContent = (g.cal.hOff||0).toFixed(2)+'"'; }
+}
+
+function updateVOff(v) { const g=G(); if(g){g.cal.vOff=parseFloat(v);save();renderCalCanvas();} document.getElementById('calVOffVal').textContent=parseFloat(v).toFixed(2)+'"'; }
+function updateHOff(v) { const g=G(); if(g){g.cal.hOff=parseFloat(v);save();renderCalCanvas();} document.getElementById('calHOffVal').textContent=parseFloat(v).toFixed(2)+'"'; }
+
+function markCalibrated() {
+  const g = G(); if (!g) return;
+  g.calibrated = true;
+  save(); renderGameList();
+  alert2('calAlert', '✓ Marked as calibrated. You can now print numbers.', 'success');
+}
+
+function resetCal() {
+  const g = G(); if (!g) return;
+  Object.assign(g.cal, DEFAULT_GAME.cal);
+  g.calibrated = false;
+  save(); fillCalInputs(); renderCalCanvas(); renderGameList();
+}
+
+document.querySelectorAll('.calInput').forEach(el => {
+  el.addEventListener('input', () => {
+    const g = G(); if (!g) return;
+    const get = id => parseFloat(document.getElementById(id)?.value) || 0;
+    g.cal.gridX    = get('calGX');
+    g.cal.gridY    = get('calGY');
+    g.cal.cellW    = get('calCW');
+    g.cal.cellH    = get('calCH');
+    g.cal.panelH   = get('calPH');
+    g.cal.markSize = get('calMS');
+    save(); renderCalCanvas();
+  });
+});
+
+// ════════════════════════════════════════════════════════════════════
+// PRINT NUMBERS
+// ════════════════════════════════════════════════════════════════════
+
+function doPrintNumbers() {
+  const g = G();
+  if (!g) { alert('Select a game.'); return; }
+  if (!S.picks.length) { alert('No numbers loaded.'); return; }
+
+  // Tier limit enforcement
+  const panelsAllowed = getTierLimit() * g.panels;
+  const picksToUse = S.picks.slice(0, panelsAllowed);
+
+  if (S.picks.length > panelsAllowed) {
+    if (!confirm(`Free tier limit: ${getTierLimit()} tickets (${panelsAllowed} panels).\nOnly the first ${panelsAllowed} panels will be printed.\n\nUpgrade at pilotlotto.com to print more.\n\nContinue with ${panelsAllowed} panels?`)) return;
+  }
+
+  const style   = document.getElementById('markStyle')?.value || 'filled';
+  const opacity = (parseInt(document.getElementById('markOpacity')?.value || 100)) / 100;
+  const leftIn  = (PAGE_W - g.ticket.width) / 2;
+  const sz      = g.cal.markSize;
+
+  const styleCSS = {
+    filled:  `background:rgba(0,0,0,${opacity});border-radius:50%;`,
+    number:  `display:flex;align-items:center;justify-content:center;font-family:'Arial Black',Arial,sans-serif;font-weight:900;color:rgba(0,0,0,${opacity});`,
+    circnum: `background:rgba(0,0,0,${opacity});border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Arial Black',Arial,sans-serif;font-weight:900;color:rgba(255,255,255,${opacity});`,
+    outline: `border:${sz*0.08}in solid rgba(0,0,0,${opacity});border-radius:50%;background:transparent;`,
+  };
+
+  let marks = '';
+  picksToUse.forEach((row, pi) => {
+    if (pi >= g.panels) return;
+    row.forEach(num => {
+      if (num < g.numbers.min || num > g.numbers.max) return;
+      const pos = numPos(g, pi, num);
+      const xIn = leftIn + pos.x - sz/2;
+      const yIn = pos.y - sz/2;
+      const fsSuffix = (style === 'number' || style === 'circnum') ? `font-size:${sz * (style==='circnum' ? 0.42 : 0.58)}in;` : '';
+      marks += `<div style="position:absolute;box-sizing:border-box;left:${xIn}in;top:${yIn}in;width:${sz}in;height:${sz}in;${styleCSS[style]}${fsSuffix}">${style==='number'||style==='circnum' ? num : ''}</div>`;
+    });
+  });
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+@page{size:letter portrait;margin:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#fff}
+#f{position:fixed;top:0;left:0;width:8.5in;height:11in}
+</style></head><body><div id="f">${marks}</div>
+<script>window.onload=()=>setTimeout(()=>{document.title='${g.name} — PilotLotto';window.print();},400)<\/script>
+</body></html>`;
+
+  const w = window.open('', '_blank', 'width=900,height=700');
+  if (!w) { alert('Allow pop-ups to print.'); return; }
+  w.document.write(html); w.document.close();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// NUMBER ENTRY
+// ════════════════════════════════════════════════════════════════════
+
+function applyPicks(rows) {
+  S.picks = rows;
+  renderNumTable();
+  renderCalCanvas();
+  updateCalWarning();
+  updateTicketCounter();
+}
+
+function renderNumTable() {
+  const tbl = document.getElementById('numTable');
+  const g = G();
+  if (!tbl || !g) return;
+  if (!S.picks.length) { tbl.innerHTML = '<div style="font-size:11px;color:var(--muted)">No numbers loaded.</div>'; return; }
+  let h = '<table class="num-tbl"><thead><tr><th>Panel</th>';
+  for (let i = 0; i < g.numbers.count; i++) h += `<th>#${i+1}</th>`;
+  if (g.bonus) h += '<th>Bonus</th>';
+  h += '</tr></thead><tbody>';
+  S.picks.slice(0, g.panels).forEach((row, pi) => {
+    h += `<tr><td class="td-panel">${g.panelLabels[pi]||pi}</td>`;
+    for (let j = 0; j < g.numbers.count; j++) h += `<td class="${row[j]?'td-picked':''}">${row[j]??'—'}</td>`;
+    if (g.bonus) h += `<td class="td-picked" style="color:var(--red)">${row[g.numbers.count]??'—'}</td>`;
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+  tbl.innerHTML = h;
+}
+
+function renderManualPanels() {
+  const g = G();
+  const wrap = document.getElementById('manualPanelsWrap');
+  if (!wrap || !g) return;
+  let h = '';
+  for (let i = 0; i < S.manualPanelCount; i++) {
+    const lbl = g.panelLabels[i] || `#${i+1}`;
+    const ph  = Array.from({length: g.numbers.count}, (_,j) => j+1).join(',');
+    h += `<div class="field"><label>Panel ${lbl} — ${g.numbers.count} picks (${g.numbers.min}–${g.numbers.max})${g.bonus?' + bonus (1–'+g.bonus.max+')':''}</label>
+      <input type="text" id="mp_${i}" placeholder="${ph}${g.bonus?',B':''}" style="font-family:var(--mono)"></div>`;
+  }
+  wrap.innerHTML = h;
+}
+
+function addManualPanel() { S.manualPanelCount++; renderManualPanels(); }
+
+function applyManual() {
+  const rows = [];
+  for (let i = 0; i < S.manualPanelCount; i++) {
+    const el = document.getElementById(`mp_${i}`);
+    if (!el) continue;
+    const nums = el.value.split(',').map(s => parseInt(s.trim(),10)).filter(n => !isNaN(n));
+    if (nums.length) rows.push(nums);
+  }
+  applyPicks(rows);
+  alert2('printAlert', `✓ ${rows.length} panel(s) ready to print.`, 'success');
+}
+
+document.getElementById('csvFile').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  const fr = new FileReader();
+  fr.onload = ev => {
+    const rows = [];
+    ev.target.result.trim().split('\n').forEach(line => {
+      line = line.trim();
+      if (!line || line.startsWith('#')) return;
+      const nums = line.split(',').map(s => parseInt(s.trim(),10)).filter(n => !isNaN(n));
+      if (nums.length) rows.push(nums);
+    });
+    applyPicks(rows);
+    const zone = document.getElementById('csvZone');
+    zone.classList.add('loaded');
+    zone.querySelector('.uz-sub').textContent = `${rows.length} panel(s) · ${f.name}`;
+    alert2('printAlert', `✓ Loaded ${rows.length} panel(s) from ${f.name}`, 'success');
+  };
+  fr.readAsText(f);
+});
+
+function updateCalWarning() {
+  const g = G();
+  const el = document.getElementById('calWarning');
+  if (el) el.style.display = (!g || g.calibrated) ? 'none' : 'block';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SCAN UPLOADS
+// ════════════════════════════════════════════════════════════════════
+
+document.getElementById('blankFile').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  const fr = new FileReader();
+  fr.onload = ev => {
+    const img = new Image();
+    img.onload = () => { S.blankImg = img; renderCalCanvas(); };
+    img.src = ev.target.result;
+    const z = document.getElementById('blankZone');
+    z.classList.add('loaded');
+    z.querySelector('.uz-sub').textContent = f.name;
+  };
+  fr.readAsDataURL(f);
+});
+
+document.getElementById('testFile').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  const fr = new FileReader();
+  fr.onload = ev => {
+    S.testScanURL = ev.target.result;
+    const z = document.getElementById('testZone');
+    z.classList.add('loaded');
+    z.querySelector('.uz-sub').textContent = f.name;
+  };
+  fr.readAsDataURL(f);
+});
+
+// ════════════════════════════════════════════════════════════════════
+// LOCKED TABS
+// ════════════════════════════════════════════════════════════════════
+
+function goLockedTab(name, desc, ...tiers) {
+  // Show the coming-soon pane for this feature
+  const tabMap = {
+    'Wheel Builder': 'wheel',
+    'Number Analysis': 'analysis',
+    'Draw History': 'history',
+  };
+  const paneId = tabMap[name];
+  if (paneId) {
+    S.tab = paneId;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    const pane = document.getElementById(`pane-${paneId}`);
+    if (pane) pane.classList.add('active');
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════════════════════
+
+function renderGameList() {
+  const list = document.getElementById('gameList');
+  const games = Object.values(S.games);
+  if (!games.length) { list.innerHTML = '<div style="padding:10px;font-size:10px;color:var(--muted)">No games saved.</div>'; return; }
+  list.innerHTML = games.map(g => `
+    <div class="game-item ${g.id === S.activeId ? 'active' : ''}" onclick="setActive('${g.id}')">
+      <div class="gi-name">${g.name}</div>
+      <div class="gi-sub">${g.state||''} · Pick ${g.numbers.count} of ${g.numbers.max} · ${g.panels} panels</div>
+      <div class="gi-cal ${g.calibrated ? 'ok' : 'bad'}">${g.calibrated ? '✓ Calibrated' : '⚠ Needs Cal'}</div>
+    </div>`).join('');
+}
+
+function updateHeader() {
+  const g = G();
+  document.getElementById('hdrGame').innerHTML = g ? `Active: <b>${g.name}</b>` : 'No game selected';
+}
+
+function goTab(tab) {
+  S.tab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.pane').forEach(p => p.classList.toggle('active', p.id === 'pane-' + tab));
+  if (tab === 'setup')     { fillSetupForm(); updateRulerHint(); }
+  if (tab === 'test')      { updateTestInfo(); }
+  if (tab === 'calibrate') { fillCalInputs(); setTimeout(renderCalCanvas, 80); }
+  if (tab === 'print')     { renderManualPanels(); renderNumTable(); updateCalWarning(); updateTicketCounter(); }
+}
+
+function alert2(id, msg, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = `alert alert-${type}`;
+  el.innerHTML = msg;
+  el.style.display = 'block';
+}
+
+function renderAll() {
+  renderGameList();
+  updateHeader();
+  updateTierUI();
+  goTab(S.tab);
+}
+
+window.addEventListener('resize', () => { if (S.tab === 'calibrate') renderCalCanvas(); });
+
+loadStore();
+renderAll();
+</script>
+</body>
+</html>
